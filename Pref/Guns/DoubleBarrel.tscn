@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Pref/DoubleBarrelBullet.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pref/Guns/DoubleBarrelBullet.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends VisibilityNotifier2D
@@ -33,7 +33,6 @@ func fire(pos_y):
 		for b in storage:
 			if !b.visible:
 				bullet_update(b,pos_y)
-				print(b.position)
 				return
 		create_new_bullet(pos_y)
 

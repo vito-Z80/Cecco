@@ -49,6 +49,7 @@ region = Rect2( 148, 276, 24, 32 )
 extents = Vector2( 12, 16 )
 
 [node name="Bak" type="Area2D"]
+input_pickable = false
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

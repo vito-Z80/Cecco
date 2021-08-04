@@ -1,5 +1,7 @@
-extends Node2D
+[gd_scene load_steps=2 format=2]
 
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
 
 var pool = Array()
 func add_bullet(bullet_node, bullet_position):
@@ -25,3 +27,7 @@ func create_new_bullet(bullet_node, bullet_position):
 	b.position = bullet_position
 	add_child(b)
 	pool.append(b)
+"
+
+[node name="BulletPool" type="Node2D"]
+script = SubResource( 1 )

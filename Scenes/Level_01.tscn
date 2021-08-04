@@ -1,20 +1,20 @@
 [gd_scene load_steps=40 format=2]
 
-[ext_resource path="res://Pref/Hero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pref/Hero/Hero.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Zone_001.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Pref/BigGun1.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Pref/HeroGrenade.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Pref/Solid.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Pref/Radar.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Pref/Rocket.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Pref/Hero/HeroGrenade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Pref/Solids/Solid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Pref/Solids/Radar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Pref/Solids/Rocket.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Pref/LevelStars.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Pref/GrenadesPack.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Pref/2Teleports.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Pref/Bak.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Pref/GateFlash.tscn" type="PackedScene" id=12]
-[ext_resource path="res://Pref/BallStorage.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Pref/BulletsPack.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Pref/DoubleBarrel.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Pref/Items/GrenadesPack.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Pref/Teleports/2Teleports.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Pref/Guns/Bak.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Pref/Decor/GateFlash.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Pref/Guns/BallStorage.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Pref/Items/BulletsPack.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Pref/Guns/DoubleBarrel.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Pref/Guns/MainGun.tscn" type="PackedScene" id=16]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 751, 7 )
@@ -140,32 +140,8 @@ position = Vector2( 2120, 40 )
 [node name="port_1" parent="Objects/teleports/2Teleports3" index="0"]
 position = Vector2( -40, -8 )
 
-[node name="decor" parent="Objects/teleports/2Teleports3/port_1" index="1"]
-frame = 0
-
-[node name="decor2" parent="Objects/teleports/2Teleports3/port_1" index="2"]
-frame = 7
-
-[node name="decor3" parent="Objects/teleports/2Teleports3/port_1" index="3"]
-frame = 7
-
-[node name="decor4" parent="Objects/teleports/2Teleports3/port_1" index="4"]
-frame = 7
-
 [node name="port_2" parent="Objects/teleports/2Teleports3" index="1"]
 position = Vector2( -8, 80 )
-
-[node name="decor" parent="Objects/teleports/2Teleports3/port_2" index="1"]
-frame = 2
-
-[node name="decor2" parent="Objects/teleports/2Teleports3/port_2" index="2"]
-frame = 1
-
-[node name="decor3" parent="Objects/teleports/2Teleports3/port_2" index="3"]
-frame = 1
-
-[node name="decor4" parent="Objects/teleports/2Teleports3/port_2" index="4"]
-frame = 1
 
 [node name="2Teleports2" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 1624, 56 )
@@ -173,32 +149,8 @@ position = Vector2( 1624, 56 )
 [node name="port_1" parent="Objects/teleports/2Teleports2" index="0"]
 position = Vector2( -24, -24 )
 
-[node name="decor" parent="Objects/teleports/2Teleports2/port_1" index="1"]
-frame = 0
-
-[node name="decor2" parent="Objects/teleports/2Teleports2/port_1" index="2"]
-frame = 7
-
-[node name="decor3" parent="Objects/teleports/2Teleports2/port_1" index="3"]
-frame = 7
-
-[node name="decor4" parent="Objects/teleports/2Teleports2/port_1" index="4"]
-frame = 7
-
 [node name="port_2" parent="Objects/teleports/2Teleports2" index="1"]
 position = Vector2( 112, 56 )
-
-[node name="decor" parent="Objects/teleports/2Teleports2/port_2" index="1"]
-frame = 2
-
-[node name="decor2" parent="Objects/teleports/2Teleports2/port_2" index="2"]
-frame = 1
-
-[node name="decor3" parent="Objects/teleports/2Teleports2/port_2" index="3"]
-frame = 1
-
-[node name="decor4" parent="Objects/teleports/2Teleports2/port_2" index="4"]
-frame = 1
 
 [node name="2Teleports" parent="Objects/teleports" instance=ExtResource( 10 )]
 
@@ -206,31 +158,31 @@ frame = 1
 position = Vector2( 544, 112 )
 
 [node name="decor" parent="Objects/teleports/2Teleports/port_1" index="1"]
-frame = 4
+frame = 2
 
 [node name="decor2" parent="Objects/teleports/2Teleports/port_1" index="2"]
-frame = 3
+frame = 1
 
 [node name="decor3" parent="Objects/teleports/2Teleports/port_1" index="3"]
-frame = 3
+frame = 1
 
 [node name="decor4" parent="Objects/teleports/2Teleports/port_1" index="4"]
-frame = 3
+frame = 1
 
 [node name="port_2" parent="Objects/teleports/2Teleports" index="1"]
 position = Vector2( 688, 56 )
 
 [node name="decor" parent="Objects/teleports/2Teleports/port_2" index="1"]
-frame = 6
+frame = 4
 
 [node name="decor2" parent="Objects/teleports/2Teleports/port_2" index="2"]
-frame = 5
+frame = 3
 
 [node name="decor3" parent="Objects/teleports/2Teleports/port_2" index="3"]
-frame = 5
+frame = 3
 
 [node name="decor4" parent="Objects/teleports/2Teleports/port_2" index="4"]
-frame = 5
+frame = 3
 
 [node name="2Teleports4" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 3000, 0 )
@@ -239,31 +191,31 @@ position = Vector2( 3000, 0 )
 position = Vector2( -440, 32 )
 
 [node name="decor" parent="Objects/teleports/2Teleports4/port_1" index="1"]
-frame = 6
+frame = 4
 
 [node name="decor2" parent="Objects/teleports/2Teleports4/port_1" index="2"]
-frame = 5
+frame = 3
 
 [node name="decor3" parent="Objects/teleports/2Teleports4/port_1" index="3"]
-frame = 5
+frame = 3
 
 [node name="decor4" parent="Objects/teleports/2Teleports4/port_1" index="4"]
-frame = 5
+frame = 3
 
 [node name="port_2" parent="Objects/teleports/2Teleports4" index="1"]
 position = Vector2( -392, 112 )
 
 [node name="decor" parent="Objects/teleports/2Teleports4/port_2" index="1"]
-frame = 0
+frame = 6
 
 [node name="decor2" parent="Objects/teleports/2Teleports4/port_2" index="2"]
-frame = 7
+frame = 5
 
 [node name="decor3" parent="Objects/teleports/2Teleports4/port_2" index="3"]
-frame = 7
+frame = 5
 
 [node name="decor4" parent="Objects/teleports/2Teleports4/port_2" index="4"]
-frame = 7
+frame = 5
 
 [node name="2Teleports5" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 3000, 0 )
@@ -271,8 +223,32 @@ position = Vector2( 3000, 0 )
 [node name="port_1" parent="Objects/teleports/2Teleports5" index="0"]
 position = Vector2( 184, 128 )
 
+[node name="decor" parent="Objects/teleports/2Teleports5/port_1" index="1"]
+frame = 4
+
+[node name="decor2" parent="Objects/teleports/2Teleports5/port_1" index="2"]
+frame = 3
+
+[node name="decor3" parent="Objects/teleports/2Teleports5/port_1" index="3"]
+frame = 3
+
+[node name="decor4" parent="Objects/teleports/2Teleports5/port_1" index="4"]
+frame = 3
+
 [node name="port_2" parent="Objects/teleports/2Teleports5" index="1"]
 position = Vector2( 232, 56 )
+
+[node name="decor" parent="Objects/teleports/2Teleports5/port_2" index="1"]
+frame = 6
+
+[node name="decor2" parent="Objects/teleports/2Teleports5/port_2" index="2"]
+frame = 5
+
+[node name="decor3" parent="Objects/teleports/2Teleports5/port_2" index="3"]
+frame = 5
+
+[node name="decor4" parent="Objects/teleports/2Teleports5/port_2" index="4"]
+frame = 5
 
 [node name="2Teleports6" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 3664, 0 )
@@ -281,31 +257,31 @@ position = Vector2( 3664, 0 )
 position = Vector2( -40, 56 )
 
 [node name="decor" parent="Objects/teleports/2Teleports6/port_1" index="1"]
-frame = 5
+frame = 3
 
 [node name="decor2" parent="Objects/teleports/2Teleports6/port_1" index="2"]
-frame = 4
+frame = 2
 
 [node name="decor3" parent="Objects/teleports/2Teleports6/port_1" index="3"]
-frame = 4
+frame = 2
 
 [node name="decor4" parent="Objects/teleports/2Teleports6/port_1" index="4"]
-frame = 4
+frame = 2
 
 [node name="port_2" parent="Objects/teleports/2Teleports6" index="1"]
 position = Vector2( 104, 56 )
 
 [node name="decor" parent="Objects/teleports/2Teleports6/port_2" index="1"]
-frame = 7
+frame = 5
 
 [node name="decor2" parent="Objects/teleports/2Teleports6/port_2" index="2"]
-frame = 6
+frame = 4
 
 [node name="decor3" parent="Objects/teleports/2Teleports6/port_2" index="3"]
-frame = 6
+frame = 4
 
 [node name="decor4" parent="Objects/teleports/2Teleports6/port_2" index="4"]
-frame = 6
+frame = 4
 
 [node name="2Teleports7" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 4440, 8 )
@@ -314,31 +290,31 @@ position = Vector2( 4440, 8 )
 position = Vector2( -88, 24 )
 
 [node name="decor" parent="Objects/teleports/2Teleports7/port_1" index="1"]
-frame = 4
+frame = 2
 
 [node name="decor2" parent="Objects/teleports/2Teleports7/port_1" index="2"]
-frame = 3
+frame = 1
 
 [node name="decor3" parent="Objects/teleports/2Teleports7/port_1" index="3"]
-frame = 3
+frame = 1
 
 [node name="decor4" parent="Objects/teleports/2Teleports7/port_1" index="4"]
-frame = 3
+frame = 1
 
 [node name="port_2" parent="Objects/teleports/2Teleports7" index="1"]
 position = Vector2( -32, 112 )
 
 [node name="decor" parent="Objects/teleports/2Teleports7/port_2" index="1"]
-frame = 6
+frame = 4
 
 [node name="decor2" parent="Objects/teleports/2Teleports7/port_2" index="2"]
-frame = 5
+frame = 3
 
 [node name="decor3" parent="Objects/teleports/2Teleports7/port_2" index="3"]
-frame = 5
+frame = 3
 
 [node name="decor4" parent="Objects/teleports/2Teleports7/port_2" index="4"]
-frame = 5
+frame = 3
 
 [node name="2Teleports8" parent="Objects/teleports" instance=ExtResource( 10 )]
 position = Vector2( 4500, 0 )
@@ -347,31 +323,31 @@ position = Vector2( 4500, 0 )
 position = Vector2( 140, 120 )
 
 [node name="decor" parent="Objects/teleports/2Teleports8/port_1" index="1"]
-frame = 5
+frame = 3
 
 [node name="decor2" parent="Objects/teleports/2Teleports8/port_1" index="2"]
-frame = 4
+frame = 2
 
 [node name="decor3" parent="Objects/teleports/2Teleports8/port_1" index="3"]
-frame = 4
+frame = 2
 
 [node name="decor4" parent="Objects/teleports/2Teleports8/port_1" index="4"]
-frame = 4
+frame = 2
 
 [node name="port_2" parent="Objects/teleports/2Teleports8" index="1"]
 position = Vector2( 236, 40 )
 
 [node name="decor" parent="Objects/teleports/2Teleports8/port_2" index="1"]
-frame = 7
+frame = 5
 
 [node name="decor2" parent="Objects/teleports/2Teleports8/port_2" index="2"]
-frame = 6
+frame = 4
 
 [node name="decor3" parent="Objects/teleports/2Teleports8/port_2" index="3"]
-frame = 6
+frame = 4
 
 [node name="decor4" parent="Objects/teleports/2Teleports8/port_2" index="4"]
-frame = 6
+frame = 4
 
 [node name="radars" type="Node" parent="Objects"]
 
@@ -437,20 +413,8 @@ position = Vector2( 6360, 88 )
 
 [node name="guns" type="Node" parent="Objects"]
 
-[node name="BigGun" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 176, 104 )
-
-[node name="BigGun2" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 640, 104 )
-
 [node name="BallStorage" parent="Objects/guns" instance=ExtResource( 13 )]
 position = Vector2( 1472, 112 )
-
-[node name="BigGun3" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 1904, 24 )
-
-[node name="BigGun4" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 2016, 112 )
 
 [node name="BallStorage2" parent="Objects/guns" instance=ExtResource( 13 )]
 position = Vector2( 2256, 112 )
@@ -470,20 +434,32 @@ position = Vector2( 3728, 64 )
 [node name="DoubleBarrel5" parent="Objects/guns" instance=ExtResource( 15 )]
 position = Vector2( 5336, 48 )
 
-[node name="BigGun5" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 3296, 120 )
-
 [node name="BallStorage3" parent="Objects/guns" instance=ExtResource( 13 )]
 position = Vector2( 3472, 40 )
-
-[node name="BigGun6" parent="Objects/guns" instance=ExtResource( 3 )]
-position = Vector2( 4216, 112 )
 
 [node name="BallStorage4" parent="Objects/guns" instance=ExtResource( 13 )]
 position = Vector2( 4776, 96 )
 
-[node name="BigGun7" parent="Objects/guns" instance=ExtResource( 3 )]
+[node name="MainGun" parent="Objects/guns" instance=ExtResource( 16 )]
 position = Vector2( 5032, 104 )
+
+[node name="MainGun2" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 4216, 112 )
+
+[node name="MainGun3" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 176, 104 )
+
+[node name="MainGun4" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 1904, 24 )
+
+[node name="MainGun5" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 2016, 112 )
+
+[node name="MainGun6" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 3296, 120 )
+
+[node name="MainGun7" parent="Objects/guns" instance=ExtResource( 16 )]
+position = Vector2( 640, 104 )
 
 [node name="packs" type="Node" parent="Objects"]
 
@@ -539,30 +515,29 @@ position = Vector2( 5408, 128 )
 
 [node name="GateFlash" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 32, 88 )
-frame = 1
 
 [node name="GateFlash2" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 40, 88 )
-frame = 0
+frame = 6
 
 [node name="GateFlash3" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 48, 88 )
-frame = 0
+frame = 6
 
 [node name="GateFlash4" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 0, 64 )
 animation = "top"
-frame = 3
+frame = 0
 
 [node name="GateFlash6" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 40, 64 )
 animation = "top"
-frame = 3
+frame = 0
 
 [node name="GateFlash5" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 80, 64 )
 animation = "top"
-frame = 3
+frame = 0
 
 [node name="Floor" type="Node" parent="."]
 

@@ -9,8 +9,14 @@ script/source = "extends Area2D
 func _physics_process(delta):
 	if visible:
 		position.x -= 1
-		if position.x < -200:
-			visible = false
+		if position.x < -224:
+			clear()
+
+func clear():
+	visible = false
+	position.x = 10000000
+	position.y = 10000000
+	$CollisionShape2D.disabled = true
 
 func _on_DoubleBarrelBullet_body_entered(body):
 	if !visible: return

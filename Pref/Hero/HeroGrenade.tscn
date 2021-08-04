@@ -40,16 +40,15 @@ func _on_HeroGrenade_fire(pos, dir):
 	visible = true
 
 
-var barrier = [\"biggun\",\"solid\",\"rocket\",\"radar\",\"ballstorage\"]
+var barrier = [\"maingun\",\"solid\",\"rocket\",\"radar\",\"ballstorage\"]
 
 func _on_HeroGrenade_body_entered(body):
 	if body.name == \"Hero\": return
 	
-	
 	Sound.grenade_launch.stop()
 	for l in barrier:
 		if l.is_subsequence_ofi(body.name):
-			body.get_node(\".\").queue_free()
+			body.queue_free()
 			Sound.explosion()
 			break
 	
