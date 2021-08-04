@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/bonus.mp3-d6816c807aa35bf64e4bbef3586ef249.mp3str"
+
+[deps]
+
+source_file="res://Audio/mp3/bonus.mp3"
+dest_files=[ "res://.import/bonus.mp3-d6816c807aa35bf64e4bbef3586ef249.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

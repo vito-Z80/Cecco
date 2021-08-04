@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scenes/Font/ZxLabel.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pref/Logo.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Pref/AnimatedStar.tscn" type="PackedScene" id=8]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+func _ready():
+	Music.play(Music.MUSIC.TITLE)
+
+func _input(event):
+	if event.is_action(\"start_game\"):
+		Music.stop(Music.MUSIC.TITLE)
+		Music.play(Music.MUSIC.LEVEL_1)
+		queue_free()
+		get_tree().change_scene(\"res://Scenes/Level_01.tscn\")
+	
+"
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+export (PackedScene) var Star
+export var star_count:int
+var timer
+func _ready():
+	timer = Timer.new()
+	timer.one_shot = true
+	add_child(timer)
+	timer.connect(\"timeout\",self,\"hi_score\")
+	for i in star_count:
+		var star = Star.instance()
+		star.playing = true
+		add_child(star)
+
+func _process(delta):
+	if !Music.is_playing(Music.MUSIC.TITLE) && timer.wait_time == 1:
+		timer.start(60)
+
+func hi_score():
+	get_parent().queue_free()
+	get_tree().change_scene(\"res://Scenes/Hi-Score.tscn\")
+"
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Node2D
+
+export (PackedScene) var ZxLabel
+var text_x
+var text_y
+func _ready():
+	text_x = 72
+	text_y = 88
+	add_label(\"1 start game\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+	add_label(\"2 define keys\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16	
+	add_label(\"3 keyboard\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+	add_label(\"4 interface 2\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+	add_label(\"5 kempston\",Vector2(text_x,text_y),Color.cyan)
+	add_label(\"EXOLON copiright 1987 hewson\",Vector2(16,184),Color.red)
+	add_label(\"by  RAFFAELE CECCO\",Vector2(72-16,88-32),Color.green)
+		
+func add_label(text,position,color:Color = Color.white):
+	var label = ZxLabel.instance()
+	label.text = text
+	label.color = color
+	label.position = position
+	label.visible = true
+	add_child(label)
+"
+
+[node name="MainMenu" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Stars" type="Node2D" parent="."]
+script = SubResource( 2 )
+Star = ExtResource( 8 )
+star_count = 16
+
+[node name="Logo" parent="." instance=ExtResource( 6 )]
+position = Vector2( 64, 0 )
+
+[node name="Text" type="Node2D" parent="."]
+script = SubResource( 3 )
+ZxLabel = ExtResource( 1 )

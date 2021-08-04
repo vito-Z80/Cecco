@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Atlas/tiles_8x8_black_bg.tres" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7.80828, 3.88359 )
+
+[node name="Floor_block_yellow" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 4 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0, 1 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 64, 136, 8, 8 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+modulate = Color( 0.752941, 0.752941, 0, 1 )
+position = Vector2( 8, 0 )
+texture = ExtResource( 2 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 72, 136, 8, 8 )

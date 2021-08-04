@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Sprites/exolon_tiles8x8.png" type="Texture" id=1]
+
+[node name="Ball_Yellow" type="Node2D"]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Ball_Yellow_1" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0, 1 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 168, 24, 8, 8 )
+
+[node name="Ball_Yellow_2" type="Sprite" parent="."]
+modulate = Color( 1, 1, 0, 1 )
+position = Vector2( 0, 8 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 184, 24, 8, 8 )
+
+[node name="Ball_Yellow_3" type="Sprite" parent="."]
+modulate = Color( 0.752941, 0.752941, 0, 1 )
+position = Vector2( 8, 0 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 176, 24, 8, 8 )
+
+[node name="Ball_Yellow_4" type="Sprite" parent="."]
+modulate = Color( 0.752941, 0.752941, 0, 1 )
+position = Vector2( 8, 8 )
+texture = ExtResource( 1 )
+centered = false
+region_enabled = true
+region_rect = Rect2( 192, 24, 8, 8 )

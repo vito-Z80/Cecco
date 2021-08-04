@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/56778_Nick_Jones_Exolon___Title__AY__1 1.ogg-7151fe44609187ecbd82509a646b5859.oggstr"
+
+[deps]
+
+source_file="res://Audio/56778_Nick_Jones_Exolon___Title__AY__1 1.ogg"
+dest_files=[ "res://.import/56778_Nick_Jones_Exolon___Title__AY__1 1.ogg-7151fe44609187ecbd82509a646b5859.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

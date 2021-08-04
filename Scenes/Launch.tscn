@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var launch_state = 0
+
+func _ready():
+	$Timer.wait_time = 3
+
+func _process(delta):
+	match launch_state:
+		1:
+			$TitleScreen.modulate.a = clamp($TitleScreen.modulate.a + delta / 4,0,1)
+#			VisualServer.canvas_item_add_line(get_canvas_item(),Vector2(10,10),Vector2(100,200),Color.aquamarine)
+		2:
+			$TitleScreen.modulate.a = clamp($TitleScreen.modulate.a - delta / 2,0,1)
+			$Billy.modulate.a = clamp($Billy.modulate.a - delta,0,1)
+			if $TitleScreen.modulate.a == 0:
+				launch_state = 3
+		3:
+			queue_free()
+			get_tree().change_scene(\"res://Scenes/MainMenu/MainMenu.tscn\")
+		
+func _input(event):
+	if event.is_pressed() && launch_state == 1 && $TitleScreen.modulate.a == 1:
+		launch_state = 2
+		
+func _on_Timer_timeout():
+	launch_state = 1
+
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 4, 4, 256, 192 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 4, 196, 160, 16 )
+
+[node name="Launch" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="TitleScreen" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+texture = SubResource( 2 )
+centered = false
+
+[node name="Billy" type="Sprite" parent="."]
+position = Vector2( 48, 152 )
+texture = SubResource( 3 )
+centered = false
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -1,0 +1,130 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/Bullet.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pref/HeroBullet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pref/HeroGrenade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Atlas/font.atlastex" type="Texture" id=5]
+[ext_resource path="res://Atlas/hero_regions.atlastex" type="Texture" id=6]
+[ext_resource path="res://Pref/Solid.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Pref/Radar.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Pref/Rocket.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Pref/LevelStars.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Pref/Point.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Font/ZxLabel.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Pref/GrenadesPack.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Atlas/teleport_decor.atlastex" type="Texture" id=14]
+[ext_resource path="res://Pref/Bak.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Pref/GateFlash.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Atlas/gate_flasher.atlastex" type="Texture" id=17]
+[ext_resource path="res://Pref/BallStorage.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Pref/DoubleBarrelBullet.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Pref/DoubleBarrel.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Pref/MainGun.tscn" type="PackedScene" id=21]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 300, 396, 16, 64 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node2D
+
+export (PackedScene) var label
+
+"
+
+[node name="font" type="Sprite"]
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Sprite" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 6 )
+centered = false
+region_rect = Rect2( 4, 212, 144, 128 )
+
+[node name="Sprite2" type="Sprite" parent="."]
+visible = false
+texture = SubResource( 1 )
+centered = false
+
+[node name="Bullet" parent="." instance=ExtResource( 2 )]
+visible = false
+
+[node name="HeroBullet" parent="." instance=ExtResource( 3 )]
+visible = false
+
+[node name="HeroGrenade" parent="." instance=ExtResource( 4 )]
+visible = false
+
+[node name="Solid" parent="." instance=ExtResource( 7 )]
+visible = false
+
+[node name="Radar" parent="." instance=ExtResource( 8 )]
+visible = false
+
+[node name="Rocket" parent="." instance=ExtResource( 9 )]
+visible = false
+
+[node name="LevelStars" parent="." instance=ExtResource( 10 )]
+visible = false
+
+[node name="Point" parent="." instance=ExtResource( 11 )]
+visible = false
+
+[node name="DisplayItems" type="Node2D" parent="."]
+visible = false
+script = SubResource( 2 )
+
+[node name="ZxLabel" parent="DisplayItems" instance=ExtResource( 12 )]
+position = Vector2( 0, 176 )
+text = "ammo"
+color = Color( 0, 1, 1, 1 )
+
+[node name="ZxLabel2" parent="DisplayItems" instance=ExtResource( 12 )]
+position = Vector2( 40, 176 )
+text = "grenades"
+color = Color( 1, 1, 0, 1 )
+
+[node name="ZxLabel3" parent="DisplayItems" instance=ExtResource( 12 )]
+position = Vector2( 112, 176 )
+text = "points"
+color = Color( 0, 1, 0, 1 )
+
+[node name="ZxLabel4" parent="DisplayItems" instance=ExtResource( 12 )]
+position = Vector2( 168, 176 )
+text = "lives"
+
+[node name="ZxLabel5" parent="DisplayItems" instance=ExtResource( 12 )]
+position = Vector2( 216, 176 )
+text = "zones"
+color = Color( 1, 0, 1, 1 )
+
+[node name="GrenadesPack" parent="." instance=ExtResource( 13 )]
+visible = false
+
+[node name="Sprite3" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 14 )
+
+[node name="Bak" parent="." instance=ExtResource( 15 )]
+visible = false
+
+[node name="Sprite4" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 17 )
+
+[node name="GateFlash" parent="." instance=ExtResource( 16 )]
+visible = false
+frame = 4
+
+[node name="BallStorage" parent="." instance=ExtResource( 18 )]
+visible = false
+
+[node name="DoubleBarrelBullet" parent="." instance=ExtResource( 19 )]
+visible = false
+
+[node name="DoubleBarrel" parent="." instance=ExtResource( 20 )]
+visible = false
+
+[node name="MainGun" parent="." instance=ExtResource( 21 )]

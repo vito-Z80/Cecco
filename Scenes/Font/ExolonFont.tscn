@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+# Use Batching = On; OpenGL2 - for 1 draw call, if OpenGL3 > draw calls is more
+#export var texture:Texture 	#fixed font texture
+export var atlas:AtlasTexture
+export var snap:int = 8 # snap
+export var ascii_start = 32 # start font ID
+var regions = Array()
+
+func _ready():
+	for y in atlas.region.size.y / snap:
+		for x in atlas.region.size.x / snap:
+			var r = Rect2(x*snap+atlas.region.position.x,y*snap+atlas.region.position.y,snap,snap)
+			regions.append(r)
+
+	print(atlas.region)
+	
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 188, 196, 64, 64 )
+
+[node name="ExolonFont" type="Node2D"]
+script = SubResource( 1 )
+atlas = SubResource( 2 )

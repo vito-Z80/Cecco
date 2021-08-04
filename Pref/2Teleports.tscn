@@ -1,0 +1,165 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Atlas/teleport_decor.atlastex" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+
+var b
+var b_y = -10000000
+var b2
+var b_y2 = -10000000
+
+func _on_port_1_body_entered(body):
+	if body.name == \"Hero\":
+		b = body
+		b_y = int(body.position.y)
+		
+
+func _physics_process(delta):
+	if b != null:
+		if $port_1.overlaps_body(b):
+			if g.jump:
+				b.position = $port_2.position + position
+				b.position.x += 4
+				Sound.teleport()
+		else:
+			b = null
+			b_y = -10000000
+
+	if b2 != null:
+		if $port_2.overlaps_body(b2):
+			if g.jump:
+				b2.position = $port_1.position + position
+				b2.position.x += 4
+				Sound.teleport()
+		else:
+			b2 = null
+			b_y2 = -10000000
+
+
+func _on_port_2_body_entered(body):
+	if body.name == \"Hero\":
+		b2 = body
+		b_y2 = int(body.position.y)
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 8 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 228, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 236, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 1 )
+region = Rect2( 244, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 1 )
+region = Rect2( 252, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 1 )
+region = Rect2( 260, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 1 )
+region = Rect2( 268, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 1 )
+region = Rect2( 276, 404, 8, 8 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 1 )
+region = Rect2( 284, 404, 8, 8 )
+
+[sub_resource type="SpriteFrames" id=11]
+animations = [ {
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ) ],
+"loop": true,
+"name": "default",
+"speed": 25.0
+} ]
+
+[node name="2Teleports" type="Node2D"]
+script = SubResource( 1 )
+
+[node name="port_1" type="Area2D" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="port_1"]
+position = Vector2( 16, 16 )
+shape = SubResource( 2 )
+
+[node name="decor" type="AnimatedSprite" parent="port_1"]
+frames = SubResource( 11 )
+frame = 7
+playing = true
+centered = false
+
+[node name="decor2" type="AnimatedSprite" parent="port_1"]
+position = Vector2( 24, 0 )
+frames = SubResource( 11 )
+frame = 6
+playing = true
+centered = false
+
+[node name="decor3" type="AnimatedSprite" parent="port_1"]
+position = Vector2( 24, 16 )
+frames = SubResource( 11 )
+frame = 6
+playing = true
+centered = false
+
+[node name="decor4" type="AnimatedSprite" parent="port_1"]
+position = Vector2( 0, 16 )
+frames = SubResource( 11 )
+frame = 6
+playing = true
+centered = false
+
+[node name="port_2" type="Area2D" parent="."]
+position = Vector2( 40, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="port_2"]
+position = Vector2( 16, 16 )
+shape = SubResource( 2 )
+
+[node name="decor" type="AnimatedSprite" parent="port_2"]
+frames = SubResource( 11 )
+frame = 1
+playing = true
+centered = false
+
+[node name="decor2" type="AnimatedSprite" parent="port_2"]
+position = Vector2( 24, 0 )
+frames = SubResource( 11 )
+playing = true
+centered = false
+
+[node name="decor3" type="AnimatedSprite" parent="port_2"]
+position = Vector2( 24, 16 )
+frames = SubResource( 11 )
+playing = true
+centered = false
+
+[node name="decor4" type="AnimatedSprite" parent="port_2"]
+position = Vector2( 0, 16 )
+frames = SubResource( 11 )
+playing = true
+centered = false
+
+[connection signal="body_entered" from="port_1" to="." method="_on_port_1_body_entered"]
+[connection signal="body_entered" from="port_2" to="." method="_on_port_2_body_entered"]

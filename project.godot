@@ -1,0 +1,145 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "BulletPool",
+"language": "GDScript",
+"path": "res://Pref/BulletPool.gd"
+} ]
+_global_script_class_icons={
+"BulletPool": "res://Pref/BulletPool.gd"
+}
+
+[application]
+
+config/name="Cecco"
+config/description="Exolon. Game by Raffaele Cecco. The game was written in the process of learning the engine.
+Not comercial."
+run/main_scene="res://Scenes/Launch.tscn"
+boot_splash/use_filter=false
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
+config/icon="res://icon.png"
+
+[autoload]
+
+g="*res://global.gd"
+ExolonFont="*res://Scenes/Font/ExolonFont.tscn"
+Music="*res://Scenes/Audio/Music.tscn"
+Debug="*res://debug.gd"
+Test="*res://test.tscn"
+Sound="*res://Scenes/Audio/Sound.tscn"
+
+[debug]
+
+settings/fps/force_fps=60
+
+[display]
+
+window/size/width=256
+window/size/height=192
+window/size/test_width=768
+window/size/test_height=512
+window/ios/hide_home_indicator=false
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[importer_defaults]
+
+texture_atlas={
+"atlas_file": "res://Atlas/a.png"
+}
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[input]
+
+walk_left={
+"deadzone": 0.0,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":79,"unicode":0,"echo":false,"script":null)
+ ]
+}
+walk_right={
+"deadzone": 0.0,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":80,"unicode":0,"echo":false,"script":null)
+ ]
+}
+jump={
+"deadzone": 0.0,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":81,"unicode":0,"echo":false,"script":null)
+ ]
+}
+start_game={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":49,"unicode":0,"echo":false,"script":null)
+ ]
+}
+fire={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+sit={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+ ]
+}
+mbr={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[rendering]
+
+quality/driver/fallback_to_gles2=true
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+2d/snapping/use_gpu_pixel_snap=true
+quality/reflections/texture_array_reflections=false
+quality/reflections/high_quality_ggx=false
+quality/filters/anisotropic_filter_level=1
+quality/filters/use_nearest_mipmap_filter=true
+2d/opengl/batching_send_null=1
+2d/opengl/batching_stream=2
+2d/opengl/legacy_orphan_buffers=2
+2d/opengl/legacy_stream=2
+batching/options/use_batching_in_editor=false
+batching/options/single_rect_fallback=true
+environment/default_clear_color=Color( 0, 0, 0, 1 )
+quality/depth/hdr=false
+environment/default_environment="res://default_env.tres"
+quality/2d/use_pixel_snap=true
+
+[tiled_importer]
+
+enable_json_format=true
+
+[world]
+
+2d/cell_size=8

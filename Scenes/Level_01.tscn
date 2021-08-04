@@ -1,0 +1,729 @@
+[gd_scene load_steps=40 format=2]
+
+[ext_resource path="res://Pref/Hero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/Zone_001.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pref/BigGun1.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pref/HeroGrenade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Pref/Solid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Pref/Radar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Pref/Rocket.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Pref/LevelStars.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Pref/GrenadesPack.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Pref/2Teleports.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Pref/Bak.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Pref/GateFlash.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Pref/BallStorage.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Pref/BulletsPack.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Pref/DoubleBarrel.tscn" type="PackedScene" id=15]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 751, 7 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 68, 8 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 153, 8 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 64, 16 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 124, 8 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 64, 8 )
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 12, 4 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 176, 8 )
+
+[sub_resource type="RectangleShape2D" id=9]
+extents = Vector2( 120, 8 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 232, 16 )
+
+[sub_resource type="RectangleShape2D" id=11]
+extents = Vector2( 156, 8 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 56, 8 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 76, 16 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 504, 8 )
+
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 332, 16 )
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 280, 8 )
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 64, 8 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 532, 16 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 368, 8 )
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 332, 8 )
+
+[sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 76, 8 )
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 304, 8 )
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 24, 8 )
+
+[sub_resource type="RectangleShape2D" id=24]
+extents = Vector2( 12, 8 )
+
+[node name="Level_01" type="Node2D"]
+
+[node name="BackObjects" type="Node2D" parent="."]
+
+[node name="Bak" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 728, 144 )
+
+[node name="Bak2" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 2400, 160 )
+
+[node name="Bak3" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 2336, 160 )
+
+[node name="Bak4" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 3648, 160 )
+
+[node name="Bak5" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 3704, 160 )
+
+[node name="Bak6" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 3760, 160 )
+
+[node name="Bak7" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 4496, 152 )
+
+[node name="Bak8" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 5184, 144 )
+
+[node name="Bak9" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 5288, 144 )
+
+[node name="Bak10" parent="BackObjects" instance=ExtResource( 11 )]
+position = Vector2( 5928, 152 )
+
+[node name="LevelStars" parent="." instance=ExtResource( 8 )]
+visible = false
+
+[node name="Hero" parent="." instance=ExtResource( 1 )]
+position = Vector2( 32, 112 )
+
+[node name="HeroGrenade" parent="." instance=ExtResource( 4 )]
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="teleports" type="Node" parent="Objects"]
+
+[node name="2Teleports3" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 2120, 40 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports3" index="0"]
+position = Vector2( -40, -8 )
+
+[node name="decor" parent="Objects/teleports/2Teleports3/port_1" index="1"]
+frame = 0
+
+[node name="decor2" parent="Objects/teleports/2Teleports3/port_1" index="2"]
+frame = 7
+
+[node name="decor3" parent="Objects/teleports/2Teleports3/port_1" index="3"]
+frame = 7
+
+[node name="decor4" parent="Objects/teleports/2Teleports3/port_1" index="4"]
+frame = 7
+
+[node name="port_2" parent="Objects/teleports/2Teleports3" index="1"]
+position = Vector2( -8, 80 )
+
+[node name="decor" parent="Objects/teleports/2Teleports3/port_2" index="1"]
+frame = 2
+
+[node name="decor2" parent="Objects/teleports/2Teleports3/port_2" index="2"]
+frame = 1
+
+[node name="decor3" parent="Objects/teleports/2Teleports3/port_2" index="3"]
+frame = 1
+
+[node name="decor4" parent="Objects/teleports/2Teleports3/port_2" index="4"]
+frame = 1
+
+[node name="2Teleports2" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 1624, 56 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports2" index="0"]
+position = Vector2( -24, -24 )
+
+[node name="decor" parent="Objects/teleports/2Teleports2/port_1" index="1"]
+frame = 0
+
+[node name="decor2" parent="Objects/teleports/2Teleports2/port_1" index="2"]
+frame = 7
+
+[node name="decor3" parent="Objects/teleports/2Teleports2/port_1" index="3"]
+frame = 7
+
+[node name="decor4" parent="Objects/teleports/2Teleports2/port_1" index="4"]
+frame = 7
+
+[node name="port_2" parent="Objects/teleports/2Teleports2" index="1"]
+position = Vector2( 112, 56 )
+
+[node name="decor" parent="Objects/teleports/2Teleports2/port_2" index="1"]
+frame = 2
+
+[node name="decor2" parent="Objects/teleports/2Teleports2/port_2" index="2"]
+frame = 1
+
+[node name="decor3" parent="Objects/teleports/2Teleports2/port_2" index="3"]
+frame = 1
+
+[node name="decor4" parent="Objects/teleports/2Teleports2/port_2" index="4"]
+frame = 1
+
+[node name="2Teleports" parent="Objects/teleports" instance=ExtResource( 10 )]
+
+[node name="port_1" parent="Objects/teleports/2Teleports" index="0"]
+position = Vector2( 544, 112 )
+
+[node name="decor" parent="Objects/teleports/2Teleports/port_1" index="1"]
+frame = 4
+
+[node name="decor2" parent="Objects/teleports/2Teleports/port_1" index="2"]
+frame = 3
+
+[node name="decor3" parent="Objects/teleports/2Teleports/port_1" index="3"]
+frame = 3
+
+[node name="decor4" parent="Objects/teleports/2Teleports/port_1" index="4"]
+frame = 3
+
+[node name="port_2" parent="Objects/teleports/2Teleports" index="1"]
+position = Vector2( 688, 56 )
+
+[node name="decor" parent="Objects/teleports/2Teleports/port_2" index="1"]
+frame = 6
+
+[node name="decor2" parent="Objects/teleports/2Teleports/port_2" index="2"]
+frame = 5
+
+[node name="decor3" parent="Objects/teleports/2Teleports/port_2" index="3"]
+frame = 5
+
+[node name="decor4" parent="Objects/teleports/2Teleports/port_2" index="4"]
+frame = 5
+
+[node name="2Teleports4" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 3000, 0 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports4" index="0"]
+position = Vector2( -440, 32 )
+
+[node name="decor" parent="Objects/teleports/2Teleports4/port_1" index="1"]
+frame = 6
+
+[node name="decor2" parent="Objects/teleports/2Teleports4/port_1" index="2"]
+frame = 5
+
+[node name="decor3" parent="Objects/teleports/2Teleports4/port_1" index="3"]
+frame = 5
+
+[node name="decor4" parent="Objects/teleports/2Teleports4/port_1" index="4"]
+frame = 5
+
+[node name="port_2" parent="Objects/teleports/2Teleports4" index="1"]
+position = Vector2( -392, 112 )
+
+[node name="decor" parent="Objects/teleports/2Teleports4/port_2" index="1"]
+frame = 0
+
+[node name="decor2" parent="Objects/teleports/2Teleports4/port_2" index="2"]
+frame = 7
+
+[node name="decor3" parent="Objects/teleports/2Teleports4/port_2" index="3"]
+frame = 7
+
+[node name="decor4" parent="Objects/teleports/2Teleports4/port_2" index="4"]
+frame = 7
+
+[node name="2Teleports5" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 3000, 0 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports5" index="0"]
+position = Vector2( 184, 128 )
+
+[node name="port_2" parent="Objects/teleports/2Teleports5" index="1"]
+position = Vector2( 232, 56 )
+
+[node name="2Teleports6" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 3664, 0 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports6" index="0"]
+position = Vector2( -40, 56 )
+
+[node name="decor" parent="Objects/teleports/2Teleports6/port_1" index="1"]
+frame = 5
+
+[node name="decor2" parent="Objects/teleports/2Teleports6/port_1" index="2"]
+frame = 4
+
+[node name="decor3" parent="Objects/teleports/2Teleports6/port_1" index="3"]
+frame = 4
+
+[node name="decor4" parent="Objects/teleports/2Teleports6/port_1" index="4"]
+frame = 4
+
+[node name="port_2" parent="Objects/teleports/2Teleports6" index="1"]
+position = Vector2( 104, 56 )
+
+[node name="decor" parent="Objects/teleports/2Teleports6/port_2" index="1"]
+frame = 7
+
+[node name="decor2" parent="Objects/teleports/2Teleports6/port_2" index="2"]
+frame = 6
+
+[node name="decor3" parent="Objects/teleports/2Teleports6/port_2" index="3"]
+frame = 6
+
+[node name="decor4" parent="Objects/teleports/2Teleports6/port_2" index="4"]
+frame = 6
+
+[node name="2Teleports7" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 4440, 8 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports7" index="0"]
+position = Vector2( -88, 24 )
+
+[node name="decor" parent="Objects/teleports/2Teleports7/port_1" index="1"]
+frame = 4
+
+[node name="decor2" parent="Objects/teleports/2Teleports7/port_1" index="2"]
+frame = 3
+
+[node name="decor3" parent="Objects/teleports/2Teleports7/port_1" index="3"]
+frame = 3
+
+[node name="decor4" parent="Objects/teleports/2Teleports7/port_1" index="4"]
+frame = 3
+
+[node name="port_2" parent="Objects/teleports/2Teleports7" index="1"]
+position = Vector2( -32, 112 )
+
+[node name="decor" parent="Objects/teleports/2Teleports7/port_2" index="1"]
+frame = 6
+
+[node name="decor2" parent="Objects/teleports/2Teleports7/port_2" index="2"]
+frame = 5
+
+[node name="decor3" parent="Objects/teleports/2Teleports7/port_2" index="3"]
+frame = 5
+
+[node name="decor4" parent="Objects/teleports/2Teleports7/port_2" index="4"]
+frame = 5
+
+[node name="2Teleports8" parent="Objects/teleports" instance=ExtResource( 10 )]
+position = Vector2( 4500, 0 )
+
+[node name="port_1" parent="Objects/teleports/2Teleports8" index="0"]
+position = Vector2( 140, 120 )
+
+[node name="decor" parent="Objects/teleports/2Teleports8/port_1" index="1"]
+frame = 5
+
+[node name="decor2" parent="Objects/teleports/2Teleports8/port_1" index="2"]
+frame = 4
+
+[node name="decor3" parent="Objects/teleports/2Teleports8/port_1" index="3"]
+frame = 4
+
+[node name="decor4" parent="Objects/teleports/2Teleports8/port_1" index="4"]
+frame = 4
+
+[node name="port_2" parent="Objects/teleports/2Teleports8" index="1"]
+position = Vector2( 236, 40 )
+
+[node name="decor" parent="Objects/teleports/2Teleports8/port_2" index="1"]
+frame = 7
+
+[node name="decor2" parent="Objects/teleports/2Teleports8/port_2" index="2"]
+frame = 6
+
+[node name="decor3" parent="Objects/teleports/2Teleports8/port_2" index="3"]
+frame = 6
+
+[node name="decor4" parent="Objects/teleports/2Teleports8/port_2" index="4"]
+frame = 6
+
+[node name="radars" type="Node" parent="Objects"]
+
+[node name="Solid" parent="Objects/radars" instance=ExtResource( 5 )]
+position = Vector2( 216, 80 )
+
+[node name="Radar" parent="Objects/radars" instance=ExtResource( 6 )]
+position = Vector2( 312, 80 )
+
+[node name="Rocket" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 360, 96 )
+
+[node name="Rocket2" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 392, 96 )
+
+[node name="Rocket3" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 424, 96 )
+
+[node name="Rocket4" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 984, 96 )
+
+[node name="Rocket5" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 952, 96 )
+
+[node name="Radar2" parent="Objects/radars" instance=ExtResource( 6 )]
+position = Vector2( 1128, 80 )
+
+[node name="Rocket6" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 1664, 16 )
+
+[node name="Rocket7" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 2360, 112 )
+
+[node name="Rocket8" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 2696, 16 )
+
+[node name="Rocket9" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 2664, 16 )
+
+[node name="Rocket10" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 2632, 16 )
+
+[node name="Radar3" parent="Objects/radars" instance=ExtResource( 6 )]
+position = Vector2( 3000, 80 )
+
+[node name="Solid2" parent="Objects/radars" instance=ExtResource( 5 )]
+position = Vector2( 4312, 88 )
+
+[node name="Rocket11" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 4832, 96 )
+
+[node name="Rocket12" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 5568, 96 )
+
+[node name="Rocket13" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 5600, 96 )
+
+[node name="Rocket14" parent="Objects/radars" instance=ExtResource( 7 )]
+position = Vector2( 6048, 16 )
+
+[node name="Solid3" parent="Objects/radars" instance=ExtResource( 5 )]
+position = Vector2( 6360, 88 )
+
+[node name="guns" type="Node" parent="Objects"]
+
+[node name="BigGun" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 176, 104 )
+
+[node name="BigGun2" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 640, 104 )
+
+[node name="BallStorage" parent="Objects/guns" instance=ExtResource( 13 )]
+position = Vector2( 1472, 112 )
+
+[node name="BigGun3" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 1904, 24 )
+
+[node name="BigGun4" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 2016, 112 )
+
+[node name="BallStorage2" parent="Objects/guns" instance=ExtResource( 13 )]
+position = Vector2( 2256, 112 )
+
+[node name="DoubleBarrel" parent="Objects/guns" instance=ExtResource( 15 )]
+position = Vector2( 1680, 136 )
+
+[node name="DoubleBarrel2" parent="Objects/guns" instance=ExtResource( 15 )]
+position = Vector2( 2744, 120 )
+
+[node name="DoubleBarrel3" parent="Objects/guns" instance=ExtResource( 15 )]
+position = Vector2( 3544, 136 )
+
+[node name="DoubleBarrel4" parent="Objects/guns" instance=ExtResource( 15 )]
+position = Vector2( 3728, 64 )
+
+[node name="DoubleBarrel5" parent="Objects/guns" instance=ExtResource( 15 )]
+position = Vector2( 5336, 48 )
+
+[node name="BigGun5" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 3296, 120 )
+
+[node name="BallStorage3" parent="Objects/guns" instance=ExtResource( 13 )]
+position = Vector2( 3472, 40 )
+
+[node name="BigGun6" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 4216, 112 )
+
+[node name="BallStorage4" parent="Objects/guns" instance=ExtResource( 13 )]
+position = Vector2( 4776, 96 )
+
+[node name="BigGun7" parent="Objects/guns" instance=ExtResource( 3 )]
+position = Vector2( 5032, 104 )
+
+[node name="packs" type="Node" parent="Objects"]
+
+[node name="GrenadesPack" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 480, 128 )
+
+[node name="GrenadesPack2" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 920, 128 )
+
+[node name="GrenadesPack3" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 1752, 48 )
+
+[node name="GrenadesPack4" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 2536, 128 )
+
+[node name="BulletsPack4" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 1728, 48 )
+
+[node name="BulletsPack5" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 2448, 128 )
+
+[node name="GrenadesPack5" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 736, 72 )
+
+[node name="GrenadesPack6" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 2976, 144 )
+
+[node name="GrenadesPack7" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 3112, 128 )
+
+[node name="GrenadesPack8" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 3040, 128 )
+
+[node name="GrenadesPack9" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 3312, 72 )
+
+[node name="GrenadesPack10" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 4432, 48 )
+
+[node name="GrenadesPack11" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 4464, 48 )
+
+[node name="GrenadesPack12" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 4824, 56 )
+
+[node name="GrenadesPack13" parent="Objects/packs" instance=ExtResource( 9 )]
+position = Vector2( 5504, 128 )
+
+[node name="GrenadesPack14" parent="Objects/packs" instance=ExtResource( 14 )]
+position = Vector2( 5408, 128 )
+
+[node name="flashes" type="Node" parent="Objects"]
+
+[node name="GateFlash" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 32, 88 )
+frame = 1
+
+[node name="GateFlash2" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 40, 88 )
+frame = 0
+
+[node name="GateFlash3" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 48, 88 )
+frame = 0
+
+[node name="GateFlash4" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 0, 64 )
+animation = "top"
+frame = 3
+
+[node name="GateFlash6" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 40, 64 )
+animation = "top"
+frame = 3
+
+[node name="GateFlash5" parent="Objects/flashes" instance=ExtResource( 12 )]
+position = Vector2( 80, 64 )
+animation = "top"
+frame = 3
+
+[node name="Floor" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D"]
+position = Vector2( 680, 151 )
+shape = SubResource( 1 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D3"]
+position = Vector2( 756, 96 )
+shape = SubResource( 2 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Floor"]
+position = Vector2( 1500, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D2"]
+position = Vector2( 76, 168 )
+shape = SubResource( 3 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D4"]
+position = Vector2( 1784, 160 )
+shape = SubResource( 4 )
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D5"]
+position = Vector2( -276, 72 )
+shape = SubResource( 5 )
+
+[node name="StaticBody2D6" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D6"]
+position = Vector2( 48, 72 )
+shape = SubResource( 6 )
+
+[node name="StaticBody2D7" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D7"]
+position = Vector2( -84, 68 )
+shape = SubResource( 7 )
+
+[node name="StaticBody2D8" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D8"]
+position = Vector2( 24, 160 )
+shape = SubResource( 8 )
+
+[node name="StaticBody2D9" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2000, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D9"]
+position = Vector2( 320, 168 )
+shape = SubResource( 9 )
+
+[node name="StaticBody2D10" type="StaticBody2D" parent="Floor"]
+position = Vector2( 2500, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D10"]
+position = Vector2( 172, 160 )
+shape = SubResource( 10 )
+
+[node name="StaticBody2D11" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D11"]
+position = Vector2( 2716, 72 )
+shape = SubResource( 11 )
+
+[node name="StaticBody2D12" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D12"]
+position = Vector2( 2960, 168 )
+shape = SubResource( 12 )
+
+[node name="StaticBody2D13" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D13"]
+position = Vector2( 3084, 160 )
+shape = SubResource( 13 )
+
+[node name="StaticBody2D14" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D14"]
+position = Vector2( 3664, 168 )
+shape = SubResource( 14 )
+
+[node name="StaticBody2D15" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D15"]
+position = Vector2( 3564, 104 )
+shape = SubResource( 15 )
+
+[node name="StaticBody2D16" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D16"]
+position = Vector2( 4448, 160 )
+shape = SubResource( 16 )
+
+[node name="StaticBody2D17" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D17"]
+position = Vector2( 4416, 72 )
+shape = SubResource( 17 )
+
+[node name="StaticBody2D18" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D18"]
+position = Vector2( 5260, 160 )
+shape = SubResource( 18 )
+
+[node name="StaticBody2D19" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D19"]
+position = Vector2( 5104, 80 )
+shape = SubResource( 19 )
+
+[node name="StaticBody2D20" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D20"]
+position = Vector2( 5116, 24 )
+shape = SubResource( 20 )
+
+[node name="StaticBody2D21" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D21"]
+position = Vector2( 6068, 72 )
+shape = SubResource( 21 )
+
+[node name="StaticBody2D22" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D22"]
+position = Vector2( 6096, 160 )
+shape = SubResource( 22 )
+
+[node name="StaticBody2D23" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D23"]
+position = Vector2( 5848, 152 )
+shape = SubResource( 23 )
+
+[node name="StaticBody2D24" type="StaticBody2D" parent="Floor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor/StaticBody2D24"]
+position = Vector2( 5844, 144 )
+shape = SubResource( 24 )
+
+[node name="TileMap" parent="." instance=ExtResource( 2 )]
+
+[editable path="Objects/teleports/2Teleports3"]
+[editable path="Objects/teleports/2Teleports2"]
+[editable path="Objects/teleports/2Teleports"]
+[editable path="Objects/teleports/2Teleports4"]
+[editable path="Objects/teleports/2Teleports5"]
+[editable path="Objects/teleports/2Teleports6"]
+[editable path="Objects/teleports/2Teleports7"]
+[editable path="Objects/teleports/2Teleports8"]

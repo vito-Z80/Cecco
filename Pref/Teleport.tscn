@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 188, 388, 32, 48 )
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Sprite
+
+var color_counter = 0
+var bit = 0
+
+func _physics_process(delta):
+
+	$flash.modulate = g.zx_flash[color_counter]
+	if bit % 3 == 0: 
+		color_counter += 1
+	if color_counter == 8:
+		color_counter = 0
+	bit += 1
+"
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 188, 404, 8, 8 )
+
+[node name="Teleport" type="Sprite"]
+position = Vector2( 176, 104 )
+texture = SubResource( 1 )
+centered = false
+script = SubResource( 2 )
+
+[node name="flash" type="Sprite" parent="."]
+position = Vector2( 0, 16 )
+texture = SubResource( 3 )
+centered = false
+
+[node name="flash2" type="Sprite" parent="flash"]
+position = Vector2( 24, 0 )
+texture = SubResource( 3 )
+centered = false
+
+[node name="flash3" type="Sprite" parent="flash"]
+position = Vector2( 0, 16 )
+texture = SubResource( 3 )
+centered = false
+
+[node name="flash4" type="Sprite" parent="flash"]
+position = Vector2( 24, 16 )
+texture = SubResource( 3 )
+centered = false

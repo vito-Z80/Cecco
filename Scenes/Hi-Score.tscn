@@ -1,0 +1,102 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Pref/Logo.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pref/Ball_Red.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pref/Ball_Cyan.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pref/Ball_Green.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Pref/Ball_Purple.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Pref/Ball_Yellow.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Pref/Ball_Purple_2.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/Font/ZxLabel.tscn" type="PackedScene" id=8]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorRect
+
+export (PackedScene) var ZxLabel
+var text_x
+var text_y
+func _ready():
+	text_x = 0
+	text_y = 160
+	add_label(\"Raffaele  000000\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+	add_label(\"Cecco     000000\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16	
+	add_label(\"          000000\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+	add_label(\"          000000\",Vector2(text_x,text_y),Color.cyan)
+	text_y += 16
+		
+func add_label(text,position,color:Color = Color.white):
+	var label = ZxLabel.instance()
+	label.text = text
+	label.color = color
+	label.position = position
+	label.visible = true
+	add_child(label)
+
+func _process(delta):
+	for c in get_children():
+		c.position.y -= 1
+			
+	if get_child(get_child_count() - 1).position.y < - 16:
+		get_parent().get_parent().queue_free()
+		get_tree().change_scene(\"res://Scenes/MainMenu/MainMenu.tscn\")
+"
+
+[node name="Hi-Score" type="Node2D"]
+
+[node name="Balls" type="Node2D" parent="."]
+
+[node name="Ball_Green2" parent="Balls" instance=ExtResource( 4 )]
+position = Vector2( 24, 40 )
+
+[node name="Logo" parent="Balls" instance=ExtResource( 1 )]
+position = Vector2( 64, 0 )
+
+[node name="Ball_Cyan" parent="Balls" instance=ExtResource( 3 )]
+position = Vector2( 208, 112 )
+
+[node name="Ball_1" parent="Balls" instance=ExtResource( 2 )]
+position = Vector2( 208, 0 )
+
+[node name="Ball_2" parent="Balls" instance=ExtResource( 2 )]
+position = Vector2( 0, 80 )
+
+[node name="Ball_Cyan2" parent="Balls" instance=ExtResource( 3 )]
+position = Vector2( 8, 152 )
+
+[node name="Ball_Green" parent="Balls" instance=ExtResource( 4 )]
+position = Vector2( 208, 168 )
+
+[node name="Ball_Green3" parent="Balls" instance=ExtResource( 4 )]
+
+[node name="Ball_Purple" parent="Balls" instance=ExtResource( 5 )]
+position = Vector2( 40, 8 )
+
+[node name="Ball_Purple2" parent="Balls" instance=ExtResource( 5 )]
+position = Vector2( 32, 128 )
+
+[node name="Ball_Yellow" parent="Balls" instance=ExtResource( 6 )]
+position = Vector2( 208, 40 )
+
+[node name="Ball_Purple3" parent="Balls" instance=ExtResource( 5 )]
+position = Vector2( 240, 144 )
+
+[node name="Ball_Purple_2" parent="Balls" instance=ExtResource( 7 )]
+position = Vector2( 224, 72 )
+
+[node name="Scroll" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Scroll"]
+margin_left = 64.0
+margin_top = 32.0
+margin_right = 192.0
+margin_bottom = 192.0
+rect_clip_content = true
+color = Color( 0, 0, 0, 1 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+ZxLabel = ExtResource( 8 )

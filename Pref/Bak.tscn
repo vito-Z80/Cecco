@@ -1,0 +1,62 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+var start_y = 0
+var state = STATE.LAUNCH
+enum STATE{
+	UP,WAIT,DOWN,LAUNCH
+}
+
+func _ready():
+	start_y = position.y
+
+func _on_Bak_body_entered(body):
+	if body.name == \"Hero\":
+		body.is_damage = true
+
+
+var wait_time = 0.5
+func _physics_process(delta):
+	match state:
+		STATE.UP:
+			position.y -= 4
+			if position.y <= start_y - 32:
+				state = STATE.WAIT
+		STATE.DOWN:
+			position.y += 4
+			if position.y == start_y:
+				state = STATE.LAUNCH
+		STATE.WAIT:
+			wait_time -= delta
+			if wait_time < 0:
+				state = STATE.DOWN
+				wait_time = 0.5
+			pass
+		STATE.LAUNCH:
+			if randi() % 100 != 1: return
+			state = STATE.UP
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 148, 276, 24, 32 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 12, 16 )
+
+[node name="Bak" type="Area2D"]
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 12, 16 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_Bak_body_entered"]

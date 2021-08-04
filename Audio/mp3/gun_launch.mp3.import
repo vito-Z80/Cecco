@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/gun_launch.mp3-3579de5e5d10d9ba1741122cf3cd6541.mp3str"
+
+[deps]
+
+source_file="res://Audio/mp3/gun_launch.mp3"
+dest_files=[ "res://.import/gun_launch.mp3-3579de5e5d10d9ba1741122cf3cd6541.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

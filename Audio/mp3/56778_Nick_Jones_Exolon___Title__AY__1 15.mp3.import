@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/56778_Nick_Jones_Exolon___Title__AY__1 15.mp3-4edebe6277cef9edfbdc32d780a839b0.mp3str"
+
+[deps]
+
+source_file="res://Audio/mp3/56778_Nick_Jones_Exolon___Title__AY__1 15.mp3"
+dest_files=[ "res://.import/56778_Nick_Jones_Exolon___Title__AY__1 15.mp3-4edebe6277cef9edfbdc32d780a839b0.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

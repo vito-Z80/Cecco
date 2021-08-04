@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+
+
+func _on_GrenadesPack_body_entered(body):
+	print(body.name)
+	Sound.add_bullets()
+	queue_free()
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 132, 340, 16, 16 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6, 7 )
+
+[node name="GrenadesPack" type="Area2D"]
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_GrenadesPack_body_entered"]

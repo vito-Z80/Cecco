@@ -1,0 +1,64 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Pref/DoubleBarrelBullet.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends VisibilityNotifier2D
+
+export (PackedScene) var bullet
+var storage = Array()
+#onready var storage = get_node(\"/root/g\").double_barrel_storage
+var can_shoot = false
+var pos_x = 0
+
+func _physics_process(delta):
+	pos_x += 1
+	if !can_shoot:return
+	if pos_x < 8:return
+	if randi() % 20 != 1:return
+	fire(randf())
+	pos_x = 0
+
+func _on_DoubleBarrel_screen_entered():
+	can_shoot = true
+
+func _on_DoubleBarrel_screen_exited():
+	can_shoot = false
+
+
+func fire(pos_y):
+	if storage.empty():
+		create_new_bullet(pos_y)
+	else:
+		for b in storage:
+			if !b.visible:
+				bullet_update(b,pos_y)
+				print(b.position)
+				return
+		create_new_bullet(pos_y)
+
+
+func bullet_update(b,pos_y):
+	b.visible = true
+	b.position.x = -4
+
+func create_new_bullet(pos_y):
+	print(\"new bullet was created\")
+	var b = bullet.instance()
+	b.position.x = -4
+	if pos_y > 0.5:
+		b.position.y = 8 
+	else: 
+		b.position.y = 0
+	storage.append(b)
+	add_child(b)
+	
+"
+
+[node name="DoubleBarrel" type="VisibilityNotifier2D"]
+rect = Rect2( 0, 0, 32, 16 )
+script = SubResource( 1 )
+bullet = ExtResource( 1 )
+
+[connection signal="screen_entered" from="." to="." method="_on_DoubleBarrel_screen_entered"]
+[connection signal="screen_exited" from="." to="." method="_on_DoubleBarrel_screen_exited"]

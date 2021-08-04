@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+
+func _physics_process(delta):
+	if visible:
+		position.x -= 1
+		if position.x < -200:
+			visible = false
+
+func _on_DoubleBarrelBullet_body_entered(body):
+	if !visible: return
+	if body.name == \"Hero\":
+		visible = false
+		print(\"atatatataa\")
+
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 404, 357, 8, 7 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4, 2 )
+
+[node name="DoubleBarrelBullet" type="Area2D"]
+input_pickable = false
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 4, 4 )
+shape = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_DoubleBarrelBullet_body_entered"]

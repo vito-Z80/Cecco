@@ -1,0 +1,86 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+signal fire(pos,dir)
+var direction = false
+func _ready():
+	position.x = -10000000
+	position.y = -10000000
+	visible = false
+	pass
+
+func _physics_process(delta):
+	if visible:
+		position += gravity_vec
+		gravity_vec.y += delta * 1.8
+		if direction:
+			gravity_vec.x += -delta 
+		else:
+			gravity_vec.x += delta 
+	else:
+		position.x = -10000000
+		position.y = -10000000
+
+func _on_HeroGrenade_fire(pos, dir):
+	if visible: return
+	position = pos
+	direction = dir
+	$Sprite.flip_h = dir
+	
+	if !dir:
+		gravity_vec.x = 1
+	else:
+		gravity_vec.x = -1
+		position.x += 16
+	gravity_vec.y = -1
+	visible = true
+
+
+var barrier = [\"biggun\",\"solid\",\"rocket\",\"radar\",\"ballstorage\"]
+
+func _on_HeroGrenade_body_entered(body):
+	if body.name == \"Hero\": return
+	
+	
+	Sound.grenade_launch.stop()
+	for l in barrier:
+		if l.is_subsequence_ofi(body.name):
+			body.get_node(\".\").queue_free()
+			Sound.explosion()
+			break
+	
+	visible = false
+	position.x = -10000000
+	position.y = -10000000
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 4, 4 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 372, 372, 8, 8 )
+
+[node name="HeroGrenade" type="Area2D"]
+input_pickable = false
+gravity_point = true
+gravity_distance_scale = 1.236
+gravity_vec = Vector2( 1, -1 )
+gravity = -98.0
+linear_damp = 1.0
+script = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 4, 4 )
+shape = SubResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 3 )
+centered = false
+
+[connection signal="body_entered" from="." to="." method="_on_HeroGrenade_body_entered"]
+[connection signal="fire" from="." to="." method="_on_HeroGrenade_fire"]

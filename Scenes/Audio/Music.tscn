@@ -1,0 +1,76 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Audio/56778_Nick_Jones_Exolon___Title__AY__1 1.ogg" type="AudioStream" id=1]
+[ext_resource path="res://Audio/Be Faste.wav" type="AudioStream" id=2]
+[ext_resource path="res://Audio/56778_Nick_Jones_Exolon___Title__AY__1 12.ogg" type="AudioStream" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+enum FADE {IN,OUT,NONE}
+enum MUSIC {TITLE,LEVEL_1}
+var fade = FADE.NONE
+var music
+var storage = {
+	title = [false, MUSIC.TITLE],
+	level_1 = [false, MUSIC.LEVEL_1]
+}
+
+func music_on(name):
+	storage[name][0] = true
+
+func music_off(name):
+	storage[name][0] = false
+
+func is_playing(music):
+	return get_music(music).playing
+
+func play(music):
+	self.music = music
+	match music:
+		MUSIC.TITLE:
+			$TitleMusicAY.play()
+		MUSIC.LEVEL_1:
+			$Level_1.volume_db = -12.5
+			$Level_1.play()
+
+func stop(music):
+	self.music = music
+	match music:
+		MUSIC.TITLE:
+			$TitleMusicAY.stop()
+		MUSIC.LEVEL_1:
+			$Level_1.stop()
+
+func get_music(music):
+	match music:
+		MUSIC.TITLE:
+			return $TitleMusicAY
+		MUSIC.LEVEL_1:
+			return $Level_1
+
+# type: приглушить, увеличить, 100% громкость (все три параметра от общей громкости)
+# music: с какой мелодией выполнить действие
+# time: время на выполнение действия в секундах
+func fade(music,type,time):
+	match fade:
+		FADE.IN:
+			pass
+		FADE.OUT:
+			pass
+		FADE.NONE:
+			pass
+			
+"
+
+[node name="Music" type="Node"]
+script = SubResource( 1 )
+
+[node name="TitleMusicAY" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+
+[node name="Level_1" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+
+[node name="BigGunSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
