@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Atlas/a.png" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
 var direction = 0
@@ -15,6 +15,10 @@ func _physics_process(delta):
 		visible = false
 		position.x = -100000000
 		position.y = -100000000
+
+
+func _on_MainGunBullet_body_entered(body):
+	print(body.name)
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -26,7 +30,7 @@ extents = Vector2( 1, 1 )
 
 [node name="MainGunBullet" type="Area2D"]
 input_pickable = false
-script = SubResource( 4 )
+script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = SubResource( 2 )
@@ -35,3 +39,5 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 1, 1 )
 shape = SubResource( 3 )
+
+[connection signal="body_entered" from="." to="." method="_on_MainGunBullet_body_entered"]

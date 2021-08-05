@@ -1,7 +1,8 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Pref/Hero/BulletMove.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Atlas/hero_regions.tres" type="Texture" id=2]
+[ext_resource path="res://Atlas/hero_regions.atlastex" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -11,40 +12,142 @@ signal jump
 
 export (PackedScene) var bullet
 
-const SIT = \"sit\"
-const SIT_PERFECT = \"sit_perfect\"
+#const SIT = \"sit\"
+#const SIT_PERFECT = \"sit_perfect\"
 const WALK = \"walk\"
 const WALK_PERFECT = \"walk_perfect\"
-const DEAD = \"dead\"
-const DEAD_PERFECT = \"dead_perfect\"
-onready var anim = $AnimatedSprite
+#const DEAD = \"dead\"
+#const DEAD_PERFECT = \"dead_perfect\"
+onready var rect = $CollisionShape2D
+onready var sprite = $AnimatedSprite
 
 var is_damage = false
 var speed = 60
 var velocity = Vector2()
+var jumping_state = 0
 
 
-
-var hero_type = TYPE.NORMAL
-enum TYPE{
-	NORMAL,
-	PERFECT
-}
+var raiment = RAIMENT.NORMAL
 var state = STATE.STAY
 enum STATE{
-	SIT,WALK,JUMP,DEAD,STAY
+	STAY = 0,
+	WALK_LEFT = 1,
+	WALK_RIGHT = 2,
+	JUMP = 4,
+	SIT = 8,
+	FIRE = 16,
+	LONG_FIRE = 32,
+	DEAD = 64,
+	PERFECT = 128
+}
+enum RAIMENT{
+	NORMAL = 0,
+	PERFECT = STATE.PERFECT
 }
 
+func _ready():
+	state = STATE.STAY | raiment
+	sprite.play(\"jump\" if state & STATE.PERFECT != STATE.PERFECT else \"jump_perfect\")
 
 
+func _physics_process(delta):
+	g.hero_position = $Camera2D.get_camera_position()
+	if state & STATE.JUMP == STATE.JUMP:
+		sprite.play(\"jump\")
+		if is_on_floor():
+			state = STATE.STAY
+	else:
+		control()
+		animation()
+		action(delta)
+	fall(delta)
+	move_and_slide(velocity,Vector2.UP)
+	velocity.x = int(velocity.x)
+	velocity.y = int(velocity.y)
+#-------------------------------ANIMATION------------------------------
+func animation():
+	
+	if state == STATE.STAY || state == STATE.PERFECT:
+		sprite.stop()
+		
+	# в какую сторону двигается
+	if state & STATE.WALK_RIGHT == STATE.WALK_RIGHT:
+		sprite.flip_h = false
+	elif state & STATE.WALK_LEFT == STATE.WALK_LEFT:
+		sprite.flip_h = true
+		
+	if raiment == RAIMENT.NORMAL:
+		if state & (STATE.WALK_LEFT | STATE.WALK_RIGHT) != STATE.STAY:
+			sprite.play(\"walk\")
+		if state & STATE.SIT == STATE.SIT:
+			sprite.play(\"sit\")
+			return
+		else:
+			sprite.play(\"walk\")
+		if state & STATE.JUMP == STATE.JUMP:
+			sprite.play(\"jump\")
+	else:
+		if state & (STATE.WALK_LEFT | STATE.WALK_RIGHT) != STATE.STAY:
+			sprite.play(\"walk_perfect\")
+		if state & STATE.SIT == STATE.SIT:
+			sprite.play(\"sit_perfect\")
+			return
+		else:
+			sprite.play(\"walk_perfect\")
+		if state & STATE.JUMP == STATE.JUMP:
+			sprite.play(\"jump_perfect\")
 
+
+#---------------------CONTROL------------------------------------
+func control():
+#	if state == STATE.JUMP: return
+	state = STATE.STAY | raiment
+	state |= STATE.WALK_LEFT if Input.is_action_pressed(\"walk_left\") else 0
+	state |= STATE.WALK_RIGHT if Input.is_action_pressed(\"walk_right\") else 0
+	state |= STATE.JUMP if Input.is_action_just_pressed(\"jump\") else 0
+	state |= STATE.FIRE if Input.is_action_just_pressed(\"fire\") else 0
+	state |= STATE.LONG_FIRE if Input.is_action_pressed(\"fire\") else 0
+	state |= STATE.SIT if Input.is_action_pressed(\"sit\") else 0
 	
 
+#------------------------------ACTION--------------------------------
+func action(delta):
+	
+
+	print(velocity)
+	
+	
+	velocity.x = 0
+	# move
+	if state & STATE.WALK_RIGHT == STATE.WALK_RIGHT:
+		velocity.x = speed
+	if state & STATE.WALK_LEFT == STATE.WALK_LEFT:
+		velocity.x = -speed
+
+	# jump
+	if is_on_floor():
+		velocity.y = 0
+	if state & STATE.JUMP == STATE.JUMP:
+		if state & STATE.SIT != STATE.SIT:
+			if is_on_floor():
+				velocity.y -= 108
+#				return
+
+	# sit
+	if state & STATE.SIT == STATE.SIT:
+		rect.shape.extents.y = 13
+		rect.position.y = 19
+		velocity.x = 0
+	else:
+		rect.shape.extents.y = 16
+		rect.position.y = 16
+	
+		
 
 func dead(delta):
-	if anim.animation == \"dead_perfect\" && velocity.y == 0:
+	if sprite.animation == \"dead_perfect\" && velocity.y == 0:
 		return
-	anim.play(\"dead_perfect\")
+	sprite.play(\"dead_perfect\")
 	if is_on_floor():
 		velocity.x = 0
 		velocity.y -= 98
@@ -53,9 +156,31 @@ func dead(delta):
 	
 func fall(delta):
 	velocity.y += delta * speed * 4.4
-#	pass
+
+func jump():
 	
+	sprite.animation = \"jump\" if state & STATE.PERFECT == 0 else \"jump_perfect\"
+
+
 func move(delta):
+	
+#	sprite.flip_h = true if state & STATE.WALK_RIGHT == 0 else false
+	
+	
+	$CollisionShape2D.position.y = 17	# if not sit
+
+	
+#	match state:
+#		STATE.STAY:
+#			sprite.flip_h = last_flip if last_flip != null else false
+#		STATE.DEAD:
+#			dead(delta)
+#		STATE.SIT:
+#			sit()
+	
+#	last_flip = $AnimatedSprite.flip_h
+	return
+	
 	
 	if is_on_floor():
 		if Input.is_action_just_pressed(\"jump\"):
@@ -67,10 +192,10 @@ func move(delta):
 		
 	if !is_damage:
 		if Input.is_action_pressed(\"walk_left\"):
-			anim.flip_h = true
+			sprite.flip_h = true
 			velocity.x = -speed
 		elif Input.is_action_pressed(\"walk_right\"):
-			anim.flip_h = false
+			sprite.flip_h = false
 			velocity.x = speed
 		else:
 			velocity.x = 0
@@ -78,39 +203,24 @@ func move(delta):
 		velocity.x = 0
 		
 	
-	match hero_type:
-		TYPE.NORMAL:
-			anim.animation = WALK
-		TYPE.IMPROVED:
-			anim.animation = WALK_PERFECT
-
-	anim.playing = velocity.x != 0
+	
+	sprite.animation = \"walk\" if state & STATE.PERFECT == 0 else \"walk_perfect\"
+	sprite.playing = velocity.x != 0
 
 	fall(delta)
 	move_and_slide(velocity,Vector2.UP)
-		
-func _physics_process(delta):
-	
-	is_damage = false
-	
-	g.hero_position = $Camera2D.get_camera_position()
-	g.jump = false
-	if is_damage:
-		dead(delta)
-	else:
-		fire(delta)
-		if !sit():
-			move(delta)
-	velocity.x = int(velocity.x)
-	velocity.y = int(velocity.y)
-	
-	
+
+
 #-------------------SIT-------------------------------
 func sit():
-	if !is_on_floor(): return false
+	if is_on_floor():
+		$CollisionShape2D.position.y = 22
+		sprite.play(\"sit\" if state & STATE.PERFECT == 0 else \"sit_perfect\")
+	return
+	
 	if Input.is_action_pressed(\"sit\"):
 		$CollisionShape2D.position.y = 22
-		anim.play(\"sit\")
+		sprite.play(\"sit\")
 		return true
 	else:
 		$CollisionShape2D.position.y = 17
@@ -127,12 +237,12 @@ func fire(delta):
 		grenade_timer = 0
 	
 	if grenade_timer >= 0.5:
-		get_node(\"../HeroGrenade\").emit_signal(\"fire\",position, anim.flip_h)
+		get_node(\"../HeroGrenade\").emit_signal(\"fire\",position, sprite.flip_h)
 		Sound.grenade_launch()
 #		$HeroGrenade.emit_signal(\"fire\",position)
 	
 	if Input.is_action_just_pressed(\"fire\"):
-		bullet_direction = -1 if $AnimatedSprite.flip_h else 1
+		bullet_direction = -1 if sprite.flip_h else 1
 		show_bullet(bullet, position, bullet_direction)
 		Sound.fire()
 #------------------------Bullets POOL---------------------------------
@@ -186,150 +296,168 @@ func set_bullet_y():
 #--------------------------------------------------------------------
 "
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 10, 15 )
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 3 )
+region = Rect2( 76, 212, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 596, 24, 32 )
+region = Rect2( 276, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 500, 24, 32 )
+region = Rect2( 252, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 500, 24, 32 )
+region = Rect2( 252, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 500, 24, 32 )
+region = Rect2( 156, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 500, 24, 32 )
+region = Rect2( 180, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 500, 24, 32 )
+region = Rect2( 204, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 500, 24, 32 )
+region = Rect2( 228, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 532, 24, 32 )
+region = Rect2( 252, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 532, 24, 32 )
+region = Rect2( 276, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 532, 24, 32 )
+region = Rect2( 156, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 532, 24, 32 )
+region = Rect2( 180, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 564, 24, 32 )
+region = Rect2( 204, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 564, 24, 32 )
+region = Rect2( 228, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 564, 24, 32 )
+region = Rect2( 156, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 564, 24, 32 )
+region = Rect2( 180, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 564, 24, 32 )
+region = Rect2( 204, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 564, 24, 32 )
+region = Rect2( 228, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 596, 24, 32 )
+region = Rect2( 252, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 596, 24, 32 )
+region = Rect2( 276, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 596, 24, 32 )
+region = Rect2( 156, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 596, 24, 32 )
+region = Rect2( 180, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 596, 24, 32 )
+region = Rect2( 204, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 532, 24, 32 )
+region = Rect2( 228, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 532, 24, 32 )
+region = Rect2( 276, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=29]
+atlas = ExtResource( 3 )
+region = Rect2( 76, 276, 24, 32 )
 
 [sub_resource type="SpriteFrames" id=27]
 animations = [ {
-"frames": [ SubResource( 3 ) ],
+"frames": [ SubResource( 28 ) ],
 "loop": true,
-"name": "sit_perfect",
-"speed": 5.0
+"name": "jump",
+"speed": 1.0
 }, {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
+"frames": [ SubResource( 3 ) ],
+"loop": false,
+"name": "dead",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 4 ) ],
+"loop": false,
+"name": "sit",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": false,
+"name": "sit_perfect",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
 "loop": true,
 "name": "walk",
 "speed": 12.5
 }, {
-"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
 "loop": true,
 "name": "walk_perfect",
 "speed": 12.5
 }, {
-"frames": [ SubResource( 24 ) ],
-"loop": true,
-"name": "dead_perfect",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 25 ) ],
-"loop": true,
-"name": "dead",
-"speed": 5.0
-}, {
 "frames": [ SubResource( 26 ) ],
+"loop": false,
+"name": "dead_perfect",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 29 ) ],
 "loop": true,
-"name": "sit",
-"speed": 25.0
+"name": "jump_perfect",
+"speed": 1.0
 } ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 16 )
 
 [node name="Hero" type="KinematicBody2D"]
 script = SubResource( 1 )
 bullet = ExtResource( 1 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 12, 17 )
-shape = SubResource( 2 )
-
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 27 )
-animation = "walk"
+animation = "walk_perfect"
 centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 12, 16 )
+shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2( 12, 0 )

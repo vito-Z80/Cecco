@@ -16,13 +16,13 @@ var item_points = 0
 var item_lives = 9
 var item_zones = 0
 #-----------------------------------------------------------
-var jump:bool = false
+#var jump:bool = false
 var is_dead:bool = false
 #-----------------------------------------------------------
 
 func new_game_init():
 	clear_items()
-	jump = false
+#	jump = false
 
 func clear_items():
 	item_ammo = 99
