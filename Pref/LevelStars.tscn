@@ -1,8 +1,22 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Pref/Point.tscn" type="PackedScene" id=1]
-[ext_resource path="res://LevelStars.gd" type="Script" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (PackedScene) var star
+
+func _ready():
+	for i in 64:
+		var s = star.instance()
+		s.modulate = g.get_rnd_color()
+		s.position.x = rand_range(0,255)
+		s.position.y = rand_range(0,191)
+		add_child(s)
+	print(get_child_count())
+"
 
 [node name="LevelStars" type="Node2D"]
-script = ExtResource( 2 )
+script = SubResource( 1 )
 star = ExtResource( 1 )

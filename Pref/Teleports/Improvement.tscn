@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+
+
+var b
+
+
+func _physics_process(delta):
+	if b != null && overlaps_body(b):
+		if Input.is_action_just_pressed(\"jump\"):
+			print(\"jump\")
+			b.raiment ^= 128
+			
+func _on_Area2D_body_entered(body):
+	if body.name == \"Hero\":
+		b = body
+
+
+
+
+func _on_Improvement_body_exited(body):
+	if body.name == \"Hero\":
+		b = null
+"
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 8 )
+
+[node name="Improvement" type="Area2D"]
+script = SubResource( 1 )
+__meta__ = {
+"_editor_description_": "Улучшатель персонажа."
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_Improvement_body_exited"]

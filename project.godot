@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "BulletPool",
+"language": "GDScript",
+"path": "res://addons/BulletPool.gd"
+} ]
+_global_script_class_icons={
+"BulletPool": ""
+}
+
 [application]
 
 config/name="Cecco"
@@ -24,9 +34,7 @@ g="*res://global.gd"
 ExolonFont="*res://Scenes/Font/ExolonFont.tscn"
 Music="*res://Scenes/Audio/Music.tscn"
 Debug="*res://debug.gd"
-Test="*res://test.tscn"
 Sound="*res://Scenes/Audio/Sound.tscn"
-BulletPool="*res://Pref/BulletPool.tscn"
 
 [debug]
 

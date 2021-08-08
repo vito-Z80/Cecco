@@ -2,9 +2,10 @@
 
 [ext_resource path="res://Atlas/a.png" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Area2D
 
+# переделать на visiblity notifier
 
 func _physics_process(delta):
 	if visible:
@@ -16,6 +17,7 @@ func clear():
 	visible = false
 	position.x = 10000000
 	position.y = 10000000
+#	set_deferred($CollisionShape2D.disabled, true)
 	$CollisionShape2D.disabled = true
 
 func _on_DoubleBarrelBullet_body_entered(body):
@@ -26,23 +28,23 @@ func _on_DoubleBarrelBullet_body_entered(body):
 
 "
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 404, 357, 8, 7 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 4, 2 )
 
 [node name="DoubleBarrelBullet" type="Area2D"]
 input_pickable = false
-script = SubResource( 1 )
+script = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
-texture = SubResource( 2 )
+texture = SubResource( 3 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4, 4 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_DoubleBarrelBullet_body_entered"]

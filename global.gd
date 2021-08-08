@@ -7,8 +7,8 @@ extends Node2D
 #onready var canvas_item = get_canvas_item()
 
 var hero_position:Vector2
-#-----------------------------------------------------------
-
+#------------------Enemiy pools--------------------------------
+var e_balls = Array()
 #-----------------------------------------------------------
 var item_ammo = 99
 var item_grenades = 10
@@ -16,7 +16,7 @@ var item_points = 0
 var item_lives = 9
 var item_zones = 0
 #-----------------------------------------------------------
-#var jump:bool = false
+var jump:bool = false
 var is_dead:bool = false
 #-----------------------------------------------------------
 

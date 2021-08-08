@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=2]
+
+[sub_resource type="ParticlesMaterial" id=1]
+lifetime_randomness = 0.57
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
+gravity = Vector3( 0, 384, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+radial_accel = 41.27
+radial_accel_random = 0.54
+hue_variation = -0.81
+hue_variation_random = 0.8
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Particles2D
+
+func run(pos):
+	
+	position = pos
+	position.x += 4
+	one_shot = true
+	restart()
+"
+
+[node name="BulletSpark" type="Particles2D"]
+process_priority = 1
+emitting = false
+amount = 5
+lifetime = 0.5
+explosiveness = 0.57
+randomness = 0.77
+fixed_fps = 60
+visibility_rect = Rect2( -8, -8, 16, 16 )
+process_material = SubResource( 1 )
+script = SubResource( 2 )

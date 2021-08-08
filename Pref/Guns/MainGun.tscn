@@ -1,153 +1,152 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Atlas/a.png" type="Texture" id=1]
-[ext_resource path="res://Pref/Guns/MainGunBullet.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Atlas/gun_barrel.tres" type="Texture" id=3]
+[ext_resource path="res://Pref/Guns/Cannon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tmp/Explosion.tscn" type="PackedScene" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends StaticBody2D
 
-export (PackedScene) var bullet
-onready var cannon = $Cannon
-onready var gun = $Gun
-var look_right = 32
-var look_left = -16
+export (PackedScene) var explosion
 
-var left_limit:int
-var right_limit:int
+onready var cannon = $Cannon as AnimatedSprite
+onready var gun = $Gun as Sprite
 
-var is_destroy = false
+signal destroy
 
-func _ready():
-	# for clamp position? or visiblity  notifier
-	left_limit = position.x - 200
-	right_limit = position.x + 200
+var on_screen = false
 
 func _physics_process(delta):
-	if not $notifier.is_on_screen(): return
-	fire()
-	
-#	var hero_position = get_viewport().get_mouse_position()
-	var hero_position = g.hero_position
-	
-	cannon.flip_h = hero_position.x + 12 > position.x + 16
-	gun.flip_h = cannon.flip_h
-
-	if cannon.flip_h:
-		cannon.position.x = look_right
-	else:
-		cannon.position.x = look_left
-
-#-------------------------------------------------------------------------
-\"\"\"
-	новая пуля появляется когда:
-		хранилище пуль пустое
-		в хранилище пуль нет отработанных (невидимых) пуль
-	
-	пуля двигается на заданную дистанцию по горизонтали (влево/вправо), 
-	после достижения границ становится отработанной (visible = false), 
-	для повторного использования.
-	
-	при уничтожении маингана:
-		ноды потомки уничтожаются сразу.
-		основной нод (спрайт) = невидимый до тех пор пока в хранилище пуль
-		есть хоть одна видимая пуля. Когда все пули невидимые = 
-		уничтожить объект полностью.
-\"\"\"
-#-------------------------------------------------------------------------
-func fire():
+	if not on_screen: return
+	gun.flip_h = false if g.hero_position.x < position.x + 8 else true
+	cannon.flip_h = gun.flip_h
 	if randf() > 0.016: return
-	cannon.frame = 0 
-	cannon.play()
-	var direction = 1 if cannon.position.x > gun.position.x else -1
-	add_bullet(bullet, cannon.position, direction)
+	cannon.emit_signal(\"fire_animation\")
 
-#-------------------------------------------------------------------------
-var pool = Array()
-func add_bullet(bullet_node, bullet_position, direction):
-	if pool.empty():
-		create_new_bullet(bullet_node, bullet_position, direction)
-	else:
-		find_free(bullet_node, bullet_position, direction)
+func _on_notifier_screen_entered():
+	on_screen = true
 
-func find_free(bullet_node, bullet_position, direction):
-	var count = pool.size()
-	for b in pool:
-		if !b.visible:
-			b.visible = true
-			b.direction = direction
-			b.position = bullet_position
-			b.position.y += 3
-			if direction > 0:
-				b.position.x += 16
-			return
-		else:
-			count -= 1
-	if count == 0:
-		create_new_bullet(bullet_node, bullet_position, direction)
+func _on_notifier_screen_exited():
+	on_screen = false
 
-func create_new_bullet(bullet_node, bullet_position, direction):
-	var b = bullet_node.instance()
-	b.direction = direction
-	b.position = bullet_position
-	b.position.y += 3
-	b.speed = 2
-	if direction > 0:
-		b.position.x += 16
-	add_child(b)
-	pool.append(b)
+
+#export (PackedScene) var bullet
+#onready var cannon = $Cannon
+#onready var gun = $Gun
+#
+#var look_right = 32
+#var look_left = -16
+#
+#var left_limit:int
+#var right_limit:int
+#
+#
+#func _ready():
+#	# for clamp position? or visiblity  notifier
+#	left_limit = position.x - 200
+#	right_limit = position.x + 200
+#
+#func _physics_process(delta):
+#
+#	if not $notifier.is_on_screen(): return
+#	fire()
+#
+##	var hero_position = get_viewport().get_mouse_position()
+#	var hero_position = g.hero_position
+#
+#	cannon.flip_h = hero_position.x + 12 > position.x + 16
+#	gun.flip_h = cannon.flip_h
+#
+#	if cannon.flip_h:
+#		cannon.position.x = look_right
+#	else:
+#		cannon.position.x = look_left
+#
+##-------------------------------------------------------------------------
+#\"\"\"
+#	новая пуля появляется когда:
+#		хранилище пуль пустое
+#		в хранилище пуль нет отработанных (невидимых) пуль
+#
+#	пуля двигается на заданную дистанцию по горизонтали (влево/вправо), 
+#	после достижения границ становится отработанной (visible = false), 
+#	для повторного использования.
+#
+#	при уничтожении маингана:
+#		ноды потомки уничтожаются сразу.
+#		основной нод (спрайт) = невидимый до тех пор пока в хранилище пуль
+#		есть хоть одна видимая пуля. Когда все пули невидимые = 
+#		уничтожить объект полностью.
+#\"\"\"
+##-------------------------------------------------------------------------
+#func fire():
+#	if randf() > 0.016: return
+#	cannon.frame = 0 
+#	cannon.play()
+#	var direction = 1 if cannon.position.x > gun.position.x else -1
+#	add_bullet(bullet, cannon.position, direction)
+#
+##-------------------------------------------------------------------------
+#var pool = Array()
+#func add_bullet(bullet_node, bullet_position, direction):
+#	if pool.empty():
+#		create_new_bullet(bullet_node, bullet_position, direction)
+#	else:
+#		find_free(bullet_node, bullet_position, direction)
+#
+#func find_free(bullet_node, bullet_position, direction):
+#	var count = pool.size()
+#	for b in pool:
+#		if !b.visible:
+#			b.visible = true
+#			b.direction = direction
+#			b.position = bullet_position
+#			b.position.y += 3
+#			if direction > 0:
+#				b.position.x += 16
+#			return
+#		else:
+#			count -= 1
+#	if count == 0:
+#		create_new_bullet(bullet_node, bullet_position, direction)
+#
+#func create_new_bullet(bullet_node, bullet_position, direction):
+#	var b = bullet_node.instance()
+#	b.direction = direction
+#	b.position = bullet_position
+#	b.position.y += 3
+#	b.speed = 2
+#	if direction > 0:
+#		b.position.x += 16
+#	add_child(b)
+#	pool.append(b)
+#
+#
+#
+#
+#
+#
+#
+func _on_MainGun_destroy():
+	var e = explosion.instance()
+	var x = position.x + $CollisionShape2D.shape.extents.x
+	var y = position.y + $CollisionShape2D.shape.extents.y * 2
+	e.start(x,y)
+	get_tree().current_scene.add_child(e)
+	queue_free()
+
 "
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
 region = Rect2( 332, 268, 32, 40 )
 
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 396, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 404, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 412, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 420, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 428, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 436, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 444, 16, 8 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 3 )
-region = Rect2( 300, 452, 16, 8 )
-
-[sub_resource type="SpriteFrames" id=11]
-animations = [ {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 10 ), SubResource( 9 ), SubResource( 9 ), SubResource( 8 ), SubResource( 8 ), SubResource( 7 ), SubResource( 7 ), SubResource( 6 ), SubResource( 6 ), SubResource( 5 ), SubResource( 5 ), SubResource( 4 ), SubResource( 4 ), SubResource( 3 ), SubResource( 3 ) ],
-"loop": false,
-"name": "default",
-"speed": 50.0
-} ]
-
 [sub_resource type="RectangleShape2D" id=12]
 extents = Vector2( 16, 20 )
 
 [node name="MainGun" type="StaticBody2D"]
 script = SubResource( 1 )
-bullet = ExtResource( 2 )
+explosion = ExtResource( 4 )
 
 [node name="Gun" type="Sprite" parent="."]
 texture = SubResource( 2 )
@@ -157,11 +156,13 @@ centered = false
 position = Vector2( 8, 20 )
 scale = Vector2( 2.4, 2 )
 
-[node name="Cannon" type="AnimatedSprite" parent="."]
-position = Vector2( -16, 8 )
-frames = SubResource( 11 )
-centered = false
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 16, 20 )
 shape = SubResource( 12 )
+
+[node name="Cannon" parent="." instance=ExtResource( 2 )]
+position = Vector2( -16, 8 )
+
+[connection signal="destroy" from="." to="." method="_on_MainGun_destroy"]
+[connection signal="screen_entered" from="notifier" to="." method="_on_notifier_screen_entered"]
+[connection signal="screen_exited" from="notifier" to="." method="_on_notifier_screen_exited"]

@@ -23,6 +23,7 @@ func _physics_process(delta):
 			if g.jump:
 				b.position = $port_2.position + position
 				b.position.x += 4
+				g.jump = false
 				Sound.teleport()
 		else:
 			b = null
@@ -33,6 +34,7 @@ func _physics_process(delta):
 			if g.jump:
 				b2.position = $port_1.position + position
 				b2.position.x += 4
+				g.jump = false
 				Sound.teleport()
 		else:
 			b2 = null
@@ -102,28 +104,28 @@ shape = SubResource( 2 )
 
 [node name="decor" type="AnimatedSprite" parent="port_1"]
 frames = SubResource( 11 )
-frame = 6
+frame = 5
 playing = true
 centered = false
 
 [node name="decor2" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 24, 0 )
 frames = SubResource( 11 )
-frame = 5
+frame = 4
 playing = true
 centered = false
 
 [node name="decor3" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 24, 16 )
 frames = SubResource( 11 )
-frame = 5
+frame = 4
 playing = true
 centered = false
 
 [node name="decor4" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 0, 16 )
 frames = SubResource( 11 )
-frame = 5
+frame = 4
 playing = true
 centered = false
 
@@ -139,27 +141,28 @@ shape = SubResource( 2 )
 
 [node name="decor" type="AnimatedSprite" parent="port_2"]
 frames = SubResource( 11 )
+frame = 7
 playing = true
 centered = false
 
 [node name="decor2" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 24, 0 )
 frames = SubResource( 11 )
-frame = 7
+frame = 6
 playing = true
 centered = false
 
 [node name="decor3" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 24, 16 )
 frames = SubResource( 11 )
-frame = 7
+frame = 6
 playing = true
 centered = false
 
 [node name="decor4" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 0, 16 )
 frames = SubResource( 11 )
-frame = 7
+frame = 6
 playing = true
 centered = false
 
