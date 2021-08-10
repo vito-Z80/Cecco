@@ -1,3 +1,152 @@
-[gd_scene format=2]
+[gd_scene load_steps=12 format=2]
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D"]
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+[ext_resource path="res://Atlas/enemies.atlastex" type="Texture" id=2]
+[ext_resource path="res://tmp/Explosion.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends VisibilityNotifier2D
+
+export (PackedScene) var explosion
+onready var missile = $Missile
+onready var animation = $Missile/AnimatedSprite
+
+
+enum STATE{
+	LAUNCH, SEARCH, ATTACK, WAIT, FINISH
+}
+var state = STATE.WAIT
+
+
+var local_hero_position = Vector2()
+func _physics_process(delta):
+	local_hero_position = to_local(g.hero_position)
+	match state:
+		STATE.WAIT, STATE.FINISH: 
+			return
+		STATE.LAUNCH:
+			local_hero_position.y = rand_range(32,192-40)
+			local_hero_position.x = g.hero_position.x + 128 + 16
+			missile.position = to_local(local_hero_position)
+			state = STATE.SEARCH
+			animation.play(\"enemy_search\")
+			missile.visible = true
+		STATE.SEARCH:
+			missile.position.x -= 1
+			missile.position.y = move_toward(missile.position.y,local_hero_position.y,0.45)
+			if abs(missile.position.y - local_hero_position.y) < 2:
+				state = STATE.ATTACK
+				animation.play(\"enemy_attack\")
+		STATE.ATTACK:
+			missile.position.x -= 2
+			if missile.position.x < local_hero_position.x - 128:
+				state = STATE.LAUNCH
+			
+
+func _on_RadioControlled_screen_entered():
+	state = STATE.LAUNCH
+
+
+func _on_RadioControlled_screen_exited():
+	missile.visible = false
+	missile.position.y = -10000000
+	state = STATE.WAIT
+
+func _on_Missile_body_entered(body):
+	if body.name == \"Hero\":
+		print(\"dead\")
+		missile.visible = false
+		missile.position.y = -10000000
+		state = STATE.FINISH
+
+
+func _on_Antenna_destroy():
+	var e = explosion.instance()
+	var x = position.x + $Antenna/RadioAntenna.shape.extents.x
+	var y = position.y + $Antenna/RadioAntenna.shape.extents.y * 2
+	e.start(x,y)
+	get_parent().add_child(e)
+	queue_free()
+"
+
+[sub_resource type="GDScript" id=8]
+script/source = "extends StaticBody2D
+
+signal destroy
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 252, 316, 32, 32 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 36, 356, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 52, 356, 16, 16 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 4 ) ],
+"loop": true,
+"name": "enemy_search",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 5 ) ],
+"loop": true,
+"name": "enemy_attack",
+"speed": 1.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 8, 4 )
+
+[node name="RadioControlled" type="VisibilityNotifier2D"]
+rect = Rect2( 12, -8, 8, 48 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+explosion = ExtResource( 3 )
+
+[node name="Antenna" type="StaticBody2D" parent="."]
+script = SubResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Antenna"]
+texture = SubResource( 2 )
+centered = false
+
+[node name="RadioAntenna" type="CollisionShape2D" parent="Antenna"]
+position = Vector2( 16, 16 )
+shape = SubResource( 3 )
+
+[node name="Missile" type="Area2D" parent="."]
+visible = false
+position = Vector2( 16, 0 )
+input_pickable = false
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Missile"]
+frames = SubResource( 6 )
+animation = "enemy_search"
+playing = true
+centered = false
+
+[node name="RadioMissile" type="CollisionShape2D" parent="Missile"]
+position = Vector2( 8, 8 )
+shape = SubResource( 7 )
+
+[connection signal="screen_entered" from="." to="." method="_on_RadioControlled_screen_entered"]
+[connection signal="screen_exited" from="." to="." method="_on_RadioControlled_screen_exited"]
+[connection signal="destroy" from="Antenna" to="." method="_on_Antenna_destroy"]
+[connection signal="body_entered" from="Missile" to="." method="_on_Missile_body_entered"]
