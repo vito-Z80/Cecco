@@ -33,6 +33,9 @@ func clear_items():
 
 func get_rnd_color():
 	return zx_flash[rand_range(0,zx_flash.size() - 1)]
+	
+func get_rnd_color_6():
+	return zx_flash[rand_range(2,zx_flash.size())]
 
 var zx_flash = [
 	zx_color.BLACK,

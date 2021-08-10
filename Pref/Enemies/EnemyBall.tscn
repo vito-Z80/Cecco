@@ -6,7 +6,7 @@
 script/source = "extends Area2D
 
 signal destroy
-signal launch(position_y, direction)
+signal launch(notifier_position, direction)
 
 var pos_y
 var dir = 0
@@ -29,20 +29,31 @@ func _physics_process(delta):
 		PHASE.ATTACK:
 			time += delta
 			position.x += speed * dir
-			position.y = pos_y + sin(time * 4) * 24
-			if position.x > 256 || position.x < -256:
+			position.y = pos_y + sin(time * 4) * 16
+			if position.x > g.hero_position.x + 128 + 24 || position.x < g.hero_position.x -128:
 				emit_signal(\"destroy\")
 
 func _on_EnemyBall_01_destroy():
 	# animate dead
 	visible = false
-	position.y = -16
 	position.x = 0
+	position.y = -16
+	phase = PHASE.NONE
 
-func _on_EnemyBall_01_launch(position_y, direction):
-	pos_y = position_y
+
+var r = 0
+func y_rnd():
+	r = randi() & 48
+	if r == 48: y_rnd()
+	return r
+
+func _on_EnemyBall_01_launch(notifier_position, direction):
+	z_index = -20
+	modulate = g.get_rnd_color_6() 		# TODO убрать и создать цветные спрайты
+	pos_y = g.hero_position.y - 24
+	pos_y += y_rnd()
+	position = notifier_position
 	position.y = -16
-	position.x = 0
 	phase = PHASE.NASCENCE
 	speed = 1
 	dir = direction

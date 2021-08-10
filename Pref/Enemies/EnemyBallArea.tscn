@@ -29,14 +29,14 @@ func launch_ball():
 func create_new_enemy():
 	var e = enemy_ball.instance()
 	
-	e.emit_signal(\"launch\", g.hero_position.y + 4,direction)
+	e.emit_signal(\"launch\", position, direction)
 	balls.append(e)
-	add_child(e)
+	get_tree().current_scene.add_child(e)
 
 func init_enemy():
 	for e in balls:
 		if not e.visible:
-			e.emit_signal(\"launch\", g.hero_position.y + 4, direction)
+			e.emit_signal(\"launch\", position, direction)
 			return
 	create_new_enemy()
 
