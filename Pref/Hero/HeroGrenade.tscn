@@ -42,7 +42,7 @@ func _on_HeroGrenade_fire(pos, dir,sit):
 	visible = true
 
 
-var barrier = [\"topgun\",\"maingun\",\"solid\",\"rocket\",\"radar\",\"antenna\",\"ballstorage\"]
+var barrier = [\"topgun\",\"maingun\",\"solid\",\"rocket\",\"radar\",\"antenna\",\"ballstorage\",\"mine\"]
 
 func _on_HeroGrenade_body_entered(body):
 	if body.name == \"Hero\": return

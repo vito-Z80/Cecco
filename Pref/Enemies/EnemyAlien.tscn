@@ -76,19 +76,19 @@ func _on_EnemyMissile_01_destroy():
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
-region = Rect2( 36, 388, 16, 16 )
+region = Rect2( 4, 340, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 52, 388, 16, 16 )
+region = Rect2( 20, 340, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
-region = Rect2( 68, 388, 16, 16 )
+region = Rect2( 36, 340, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
-region = Rect2( 84, 388, 16, 16 )
+region = Rect2( 52, 340, 16, 16 )
 
 [sub_resource type="SpriteFrames" id=6]
 animations = [ {
@@ -101,13 +101,12 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 8, 8 )
 
-[node name="EnemyMissile_01" type="Area2D"]
+[node name="EnemyAlien" type="Area2D"]
 input_pickable = false
 script = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 6 )
-frame = 1
 playing = true
 centered = false
 

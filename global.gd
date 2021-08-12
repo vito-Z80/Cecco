@@ -10,6 +10,14 @@ var hero_position:Vector2
 #------------------Enemy pools--------------------------------
 var e_balls = Array()
 var e_missile_01 = Array()
+
+var pools = {
+	"enemy_balls": Array(),
+	"enemy_missiles_01": Array(),
+	"enemy_aliens": Array(),
+}
+
+
 #-----------------------------------------------------------
 var item_ammo = 99
 var item_grenades = 10

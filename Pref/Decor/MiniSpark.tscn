@@ -101,12 +101,12 @@ region = Rect2( 452, 420, 8, 8 )
 [sub_resource type="SpriteFrames" id=25]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ) ],
-"loop": false,
-"name": "default",
+"loop": true,
+"name": "star s 2",
 "speed": 25.0
 } ]
 
 [node name="AnimatedSprite" type="AnimatedSprite"]
 frames = SubResource( 25 )
-frame = 23
+animation = "star s 2"
 playing = true
