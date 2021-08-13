@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Pref/Hero/BulletMove.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Atlas/hero_regions.tres" type="Texture" id=2]
@@ -179,7 +179,6 @@ func fire(delta):
 #------------------------Bullets POOL---------------------------------
 var pool = Array()
 func show_bullet(bullet_node, bullet_position, direction):
-	print(pool.size())
 	if pool.empty():
 		return create_new_bullet(bullet_node, bullet_position, direction)
 	else:
@@ -235,100 +234,100 @@ atlas = ExtResource( 2 )
 region = Rect2( 276, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
-region = Rect2( 156, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
-region = Rect2( 180, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
-region = Rect2( 204, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
-region = Rect2( 228, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
-region = Rect2( 252, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=9]
-atlas = ExtResource( 2 )
-region = Rect2( 276, 564, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=10]
-atlas = ExtResource( 2 )
-region = Rect2( 156, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=11]
-atlas = ExtResource( 2 )
-region = Rect2( 180, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=12]
-atlas = ExtResource( 2 )
-region = Rect2( 204, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=13]
-atlas = ExtResource( 2 )
-region = Rect2( 228, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=14]
-atlas = ExtResource( 2 )
-region = Rect2( 252, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=15]
-atlas = ExtResource( 2 )
-region = Rect2( 276, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=16]
-atlas = ExtResource( 2 )
-region = Rect2( 156, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 2 )
-region = Rect2( 180, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=18]
-atlas = ExtResource( 2 )
-region = Rect2( 204, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=19]
-atlas = ExtResource( 2 )
-region = Rect2( 228, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=20]
-atlas = ExtResource( 2 )
-region = Rect2( 252, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=21]
-atlas = ExtResource( 2 )
-region = Rect2( 276, 500, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=22]
-atlas = ExtResource( 2 )
-region = Rect2( 156, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 2 )
-region = Rect2( 180, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=24]
-atlas = ExtResource( 2 )
-region = Rect2( 204, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=25]
-atlas = ExtResource( 2 )
-region = Rect2( 228, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 3 )
 region = Rect2( 76, 276, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 276, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
 region = Rect2( 252, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 2 )
+region = Rect2( 252, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 2 )
+region = Rect2( 180, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=10]
+atlas = ExtResource( 2 )
+region = Rect2( 204, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 2 )
+region = Rect2( 228, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 2 )
+region = Rect2( 252, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 2 )
+region = Rect2( 276, 500, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 2 )
+region = Rect2( 180, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 2 )
+region = Rect2( 204, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 2 )
+region = Rect2( 228, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=19]
+atlas = ExtResource( 2 )
+region = Rect2( 180, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=20]
+atlas = ExtResource( 2 )
+region = Rect2( 204, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=21]
+atlas = ExtResource( 2 )
+region = Rect2( 228, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 2 )
+region = Rect2( 252, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=23]
+atlas = ExtResource( 2 )
+region = Rect2( 276, 564, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 2 )
+region = Rect2( 156, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 2 )
+region = Rect2( 180, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 2 )
+region = Rect2( 204, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 2 )
+region = Rect2( 228, 596, 24, 32 )
 
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
@@ -342,39 +341,65 @@ animations = [ {
 "name": "dead",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
-"loop": true,
-"name": "walk_perfect",
-"speed": 12.5
-}, {
-"frames": [ SubResource( 14 ) ],
-"loop": false,
-"name": "sit",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 15 ) ],
-"loop": false,
-"name": "dead_perfect",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ) ],
-"loop": true,
-"name": "walk",
-"speed": 12.5
-}, {
-"frames": [ SubResource( 26 ) ],
+"frames": [ SubResource( 4 ) ],
 "loop": true,
 "name": "jump_perfect",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 27 ) ],
+"frames": [ SubResource( 5 ) ],
+"loop": false,
+"name": "dead_perfect",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 6 ) ],
 "loop": false,
 "name": "sit_perfect",
 "speed": 1.0
+}, {
+"frames": [ SubResource( 7 ) ],
+"loop": false,
+"name": "sit",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"loop": true,
+"name": "walk",
+"speed": 12.5
+}, {
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "walk_perfect",
+"speed": 12.5
 } ]
 
 [sub_resource type="RectangleShape2D" id=29]
 extents = Vector2( 10, 16 )
+
+[sub_resource type="GDScript" id=30]
+script/source = "extends Camera2D
+
+# Smoothing duration in seconds
+#const SMOOTHING_DURATION: = 0.2
+#
+## The node to follow
+#onready var target = $\".\"
+#
+## Current position of the camera
+#var current_position: Vector2
+#
+## Position the camera is moving towards
+#var destination_position: Vector2
+#
+#func _ready() -> void:
+#  current_position = position
+#
+#func _process(delta: float) -> void:
+#  destination_position = target.position
+#  current_position += Vector2(destination_position.x - current_position.x, destination_position.y - current_position.y) / SMOOTHING_DURATION * delta
+#
+#  position = current_position.round()
+#  force_update_scroll()
+"
 
 [node name="Hero" type="KinematicBody2D"]
 script = SubResource( 1 )
@@ -398,3 +423,5 @@ limit_right = 6384
 limit_bottom = 0
 smoothing_enabled = true
 smoothing_speed = 8.0
+editor_draw_limits = true
+script = SubResource( 30 )

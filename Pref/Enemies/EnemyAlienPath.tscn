@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Atlas/enemies.atlastex" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 onready var player = $AnimationPlayer
@@ -22,35 +22,34 @@ func _physics_process(delta):
 		player.play(\"test\", -1, 1.5)
 "
 
-[sub_resource type="AtlasTexture" id=1]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
 region = Rect2( 4, 340, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 20, 340, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=3]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 1 )
 region = Rect2( 36, 340, 16, 16 )
 
-[sub_resource type="AtlasTexture" id=4]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 1 )
 region = Rect2( 52, 340, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=5]
+[sub_resource type="SpriteFrames" id=6]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ],
 "loop": true,
 "name": "default",
 "speed": 12.5
 } ]
 
-[sub_resource type="RectangleShape2D" id=9]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="Animation" id=7]
-resource_name = "test"
+[sub_resource type="Animation" id=8]
 length = 3.7
 tracks/0/type = "bezier"
 tracks/0/path = NodePath(".:position:x")
@@ -75,14 +74,14 @@ tracks/1/keys = {
 
 [node name="Area2D" type="Node2D"]
 position = Vector2( 144, 96 )
-script = SubResource( 8 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, 0.0113449 )
-frames = SubResource( 5 )
+frames = SubResource( 6 )
 playing = true
 centered = false
 
@@ -90,9 +89,9 @@ centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite/Area2D"]
 position = Vector2( 8, 8 )
-shape = SubResource( 9 )
+shape = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../AnimatedSprite")
 playback_speed = 2.0
-anims/test = SubResource( 7 )
+anims/test = SubResource( 8 )

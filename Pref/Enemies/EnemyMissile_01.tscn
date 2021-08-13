@@ -71,6 +71,7 @@ func _on_EnemyMissile_01_launch(shape_position):
 
 
 func _on_EnemyMissile_01_destroy():
+	ExplosionPool.launch(position)
 	hide()
 "
 

@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, 264, 128, 7.85723, -0.561231, -7.85723, 0.561231, 216, 128, 2.24492, 12.9083, -2.24492, -12.9083, 192, 104, -14.592, 0, 14.592, 0, 216, 80, -1.12246, -15.1532, 1.12246, 15.1532, 240, 104, 0, 0, 0, 0, 208, 128, 0, 0, 0, 0, -16, 128 )
+}
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Path2D
+
+onready var path = $path as PathFollow2D
+var time = 0
+
+func _physics_process(delta):
+	time += delta
+	path.offset = path.offset + time 
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 36, 388, 16, 16 )
+
+[node name="Path2D" type="Path2D"]
+curve = SubResource( 1 )
+script = SubResource( 3 )
+
+[node name="path" type="PathFollow2D" parent="."]
+position = Vector2( 264, 128 )
+rotation = -3.12602
+rotate = false
+cubic_interp = false
+loop = false
+
+[node name="Sprite" type="Sprite" parent="path"]
+rotation = 3.14159
+texture = SubResource( 2 )

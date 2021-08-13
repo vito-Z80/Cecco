@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Pref/Enemies/Explosion.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (PackedScene) var explosion_animation
+onready var pool = g.pools.enemy_explosions as Array
+
+func create_new_enemy(position:Vector2):
+	var e = explosion_animation.instance()
+	e.emit_signal(\"launch\", position)
+	pool.append(e)
+	get_tree().current_scene.add_child(e)
+
+func init_enemy(position:Vector2):
+	for e in pool:
+		if not e.visible:
+			e.emit_signal(\"launch\", position)
+			return
+	create_new_enemy(position)
+
+func launch(position:Vector2):
+	print(\"Explosion pool: \" + str(pool.size()))
+	if pool.empty():
+		create_new_enemy(position)
+	else:
+		init_enemy(position)
+"
+
+[node name="ExplosionPool" type="Node2D"]
+script = SubResource( 1 )
+explosion_animation = ExtResource( 1 )

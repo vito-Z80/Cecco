@@ -4,7 +4,6 @@ class_name BulletPool
 var pool = Array()
 
 func get_bullet(parent,bullet_node):
-	print(pool.size())
 	if pool.empty():
 		return create_new_bullet(parent,bullet_node)
 	else:

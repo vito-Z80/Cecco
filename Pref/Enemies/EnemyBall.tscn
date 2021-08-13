@@ -36,6 +36,7 @@ func _physics_process(delta):
 func _on_EnemyBall_01_destroy():
 	# animate dead
 	visible = false
+	ExplosionPool.launch(position)
 	position.x = 0
 	position.y = -16
 	phase = PHASE.NONE

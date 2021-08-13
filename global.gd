@@ -15,6 +15,7 @@ var pools = {
 	"enemy_balls": Array(),
 	"enemy_missiles_01": Array(),
 	"enemy_aliens": Array(),
+	"enemy_explosions": Array(),
 }
 
 
