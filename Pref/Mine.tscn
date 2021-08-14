@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+[ext_resource path="res://Atlas/mine_explosion.tres" type="Texture" id=2]
+[ext_resource path="res://Pref/Particles/MineExplosion.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+signal destroy
+export (PackedScene) var explosion_node
+var explosion
+
+func _ready():
+	explosion = explosion_node.instance() as Particles2D
+	add_child(explosion)
+	
+func _physics_process(delta):
+	if $AnimatedSprite.visible:
+		$AnimatedSprite.modulate = g.get_rnd_color_6()
+
+func _on_Area2D_destroy():
+	explosion.one_shot = true
+	explosion.restart()
+	$Sprite.queue_free()
+	$CollisionShape2D.queue_free()
+	$AnimatedSprite.visible = true
+	$AnimatedSprite.play()
+
+func _on_Area2D_body_entered(body):
+	if body.name == \"Hero\":
+		body.emit_signal(\"destroy\")
+		emit_signal(\"destroy\")
+"
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 356, 364, 16, 8 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 2, 4 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 2 )
+region = Rect2( 356, 348, 16, 8 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 2 )
+region = Rect2( 356, 356, 16, 8 )
+
+[sub_resource type="SpriteFrames" id=6]
+animations = [ {
+"frames": [ SubResource( 4 ), SubResource( 5 ) ],
+"loop": true,
+"name": "default",
+"speed": 12.5
+} ]
+
+[node name="Mine" type="Area2D"]
+input_pickable = false
+script = SubResource( 1 )
+explosion_node = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = SubResource( 2 )
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 3 )
+shape = SubResource( 3 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+visible = false
+frames = SubResource( 6 )
+centered = false
+
+[connection signal="body_entered" from="." to="." method="_on_Area2D_body_entered"]
+[connection signal="destroy" from="." to="." method="_on_Area2D_destroy"]

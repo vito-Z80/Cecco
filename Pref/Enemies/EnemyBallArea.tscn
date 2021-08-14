@@ -7,7 +7,7 @@ script/source = "extends Area2D
 
 var can_launch = false
 export (PackedScene) var enemy_ball
-onready var balls = g.e_balls as Array
+onready var balls = g.pools.enemy_balls as Array
 const LAUNCH_TIME = 1
 var time = 0
 var direction = 0
@@ -58,6 +58,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 extents = Vector2( 32, 96 )
 
 [node name="EnemyBallArea" type="Area2D"]
+input_pickable = false
 script = SubResource( 1 )
 enemy_ball = ExtResource( 1 )
 

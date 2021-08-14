@@ -1,13 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Atlas/a.png" type="Texture" id=1]
 [ext_resource path="res://tmp/Explosion.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Pref/Enemies/EnemyMiniBallsArea.tscn" type="PackedScene" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends StaticBody2D
 
 export (PackedScene) var explosion
+export (PackedScene) var balls
+var b:Area2D
 signal destroy
+var is_radius_change = false
+
+func _ready():
+	b = balls.instance()
+	b.position.x = 16
+	b.position.y = 16
+	add_child(b)
+
+func _physics_process(delta):
+	if is_radius_change && b.get_child_count() <= 1:
+		print(\"full destroyyyyyyyyyyyyyy\")
+		queue_free()
 
 func _on_BallStorage_destroy():
 	var e = explosion.instance()
@@ -15,7 +30,10 @@ func _on_BallStorage_destroy():
 	var y = position.y + $CollisionShape2D.shape.extents.y * 2
 	e.start(x,y)
 	get_parent().add_child(e)
-	queue_free()
+	$Sprite.queue_free()
+	$CollisionShape2D.queue_free()
+	b.emit_signal(\"change_radius\", 96)
+	is_radius_change = true
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -28,6 +46,7 @@ extents = Vector2( 16, 24 )
 [node name="BallStorage" type="StaticBody2D"]
 script = SubResource( 1 )
 explosion = ExtResource( 2 )
+balls = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = SubResource( 2 )

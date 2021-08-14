@@ -57,6 +57,7 @@ func _process(delta):
 			state = STATE.FALL
 			direction = g.hero_position.x > center_x
 			$AnimatedSprite.flip_h = direction
+			$AnimatedSprite.modulate = g.get_rnd_color_6()
 			visible = true
 
 func hide():
@@ -66,6 +67,7 @@ func hide():
 	state = STATE.WAIT
 
 func _on_EnemyMissile_01_launch(shape_position):
+	z_index = -20
 	center_x = shape_position.x
 	state = STATE.PREPARE
 
@@ -73,6 +75,12 @@ func _on_EnemyMissile_01_launch(shape_position):
 func _on_EnemyMissile_01_destroy():
 	ExplosionPool.launch(position)
 	hide()
+
+
+func _on_EnemyMissile_01_body_entered(body):
+	if body.name == \"Hero\":
+		emit_signal(\"destroy\")
+		body.emit_signal(\"destroy\")
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -100,7 +108,7 @@ animations = [ {
 } ]
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 8, 8 )
+extents = Vector2( 8, 6 )
 
 [node name="EnemyMissile_01" type="Area2D"]
 input_pickable = false
@@ -116,5 +124,6 @@ centered = false
 position = Vector2( 8, 8 )
 shape = SubResource( 7 )
 
+[connection signal="body_entered" from="." to="." method="_on_EnemyMissile_01_body_entered"]
 [connection signal="destroy" from="." to="." method="_on_EnemyMissile_01_destroy"]
 [connection signal="launch" from="." to="." method="_on_EnemyMissile_01_launch"]

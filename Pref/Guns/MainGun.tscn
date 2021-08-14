@@ -141,11 +141,14 @@ func _on_MainGun_destroy():
 atlas = ExtResource( 1 )
 region = Rect2( 332, 268, 32, 40 )
 
-[sub_resource type="RectangleShape2D" id=12]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16, 20 )
 
 [node name="MainGun" type="StaticBody2D"]
 script = SubResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 explosion = ExtResource( 4 )
 
 [node name="Gun" type="Sprite" parent="."]
@@ -158,7 +161,7 @@ scale = Vector2( 2.4, 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 16, 20 )
-shape = SubResource( 12 )
+shape = SubResource( 3 )
 
 [node name="Cannon" parent="." instance=ExtResource( 2 )]
 position = Vector2( -16, 8 )

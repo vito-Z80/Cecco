@@ -92,7 +92,7 @@ func _on_Cannon_fire_animation():
 	play()
 	get_bullet(get_tree().current_scene,bullet)
 #--------------------pool--------------------------------
-var pool = Array()
+var pool = g.pools.enemy_maingun as Array
 func get_bullet(scene,bullet_node):
 	print(pool.size())
 	if pool.empty():
@@ -130,6 +130,9 @@ position = Vector2( -16, 0 )
 frames = SubResource( 17 )
 centered = false
 script = SubResource( 18 )
+__meta__ = {
+"_edit_group_": true
+}
 bullet = ExtResource( 2 )
 
 [connection signal="fire_animation" from="." to="." method="_on_Cannon_fire_animation"]

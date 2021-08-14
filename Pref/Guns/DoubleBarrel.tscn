@@ -1,23 +1,24 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Atlas/a.png" type="Texture" id=1]
+[ext_resource path="res://Pref/Guns/DoubleBarrelBullet.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends VisibilityNotifier2D
 
 export (PackedScene) var bullet
-var storage = Array()
+onready var storage = g.pools.enemy_shotgun
 #onready var storage = get_node(\"/root/g\").double_barrel_storage
 var can_shoot = false
-var pos_x = 0
+var pixel_counter = 0
 
 func _physics_process(delta):
-	pos_x += 1
-	if !can_shoot:return
-	if pos_x < 8:return
-	if randi() % 20 != 1:return
-	fire(randf())
-	pos_x = 0
+	if not can_shoot: return
+	if g.hero_position.x > position.x - 48: return
+	pixel_counter += 1
+	if randi() % 20 != 1: return
+	if pixel_counter >= 8:
+		pixel_counter = 0
+		fire()
 
 func _on_DoubleBarrel_screen_entered():
 	can_shoot = true
@@ -26,84 +27,34 @@ func _on_DoubleBarrel_screen_exited():
 	can_shoot = false
 
 
-func fire(pos_y):
+func fire():
 	if storage.empty():
-		create_new_bullet(pos_y)
+		create_new_bullet()
 	else:
 		for b in storage:
 			if !b.visible:
-				bullet_update(b,pos_y)
+				bullet_update(b)
 				return
-		create_new_bullet(pos_y)
+		create_new_bullet()
 
 
-func bullet_update(b,pos_y):
+func bullet_update(b):
 	b.visible = true
-	b.position.x = -4
+	b.position.x = position.x - 4
+	b.position.y = position.y + (1 if randf() < 0.5 else 9)
 
-func create_new_bullet(pos_y):
-	print(\"new bullet was created\")
+func create_new_bullet():
 	var b = bullet.instance()
-	b.position.x = -4
-	if pos_y > 0.5:
-		b.position.y = 8 
-	else: 
-		b.position.y = 0
+	bullet_update(b)
 	storage.append(b)
-	add_child(b)
+	get_tree().current_scene.add_child(b)
 	
 "
-
-[sub_resource type="GDScript" id=2]
-script/source = "extends Area2D
-
-# переделать на visiblity notifier
-
-func _physics_process(delta):
-	if visible:
-		position.x -= 1
-		if position.x < -224:
-			clear()
-
-func clear():
-	visible = false
-	position.x = 10000000
-	position.y = 10000000
-#	set_deferred($CollisionShape2D.disabled, true)
-	$CollisionShape2D.disabled = true
-
-func _on_DoubleBarrelBullet_body_entered(body):
-	if !visible: return
-	if body.name == \"Hero\":
-		visible = false
-		print(\"atatatataa\")
-
-"
-
-[sub_resource type="AtlasTexture" id=3]
-atlas = ExtResource( 1 )
-region = Rect2( 404, 357, 8, 7 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 4, 2 )
-
-[sub_resource type="PackedScene" id=5]
-_bundled = {
-"conn_count": 1,
-"conns": PoolIntArray( 1073741827, 1073741826, 13, 12, 2, 0 ),
-"editable_instances": [  ],
-"names": PoolStringArray( "DoubleBarrelBullet", "Area2D", "input_pickable", "script", "Sprite", "Sprite", "texture", "centered", "CollisionShape2D", "CollisionShape2D", "position", "shape", "_on_DoubleBarrelBullet_body_entered", "body_entered" ),
-"node_count": 3,
-"node_paths": [ NodePath("."), NodePath("."), NodePath("."), NodePath(".") ],
-"nodes": PoolIntArray( -1, -1, 1, 0, -1, 2, 2, 0, 3, 1, 0, 1073741824, 0, 5, 4, -1, 2, 6, 2, 7, 3, 0, 1073741825, 0, 9, 8, -1, 2, 10, 4, 11, 5, 0 ),
-"variants": [ false, SubResource( 2 ), SubResource( 3 ), false, Vector2( 4, 4 ), SubResource( 4 ) ],
-"version": 2
-}
 
 [node name="DoubleBarrel" type="VisibilityNotifier2D"]
 rect = Rect2( 0, 0, 32, 16 )
 script = SubResource( 1 )
-bullet = SubResource( 5 )
+bullet = ExtResource( 1 )
 
 [connection signal="screen_entered" from="." to="." method="_on_DoubleBarrel_screen_entered"]
 [connection signal="screen_exited" from="." to="." method="_on_DoubleBarrel_screen_exited"]

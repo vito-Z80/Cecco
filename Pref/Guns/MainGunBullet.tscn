@@ -10,17 +10,19 @@ var speed = 0
 var start_position_x = 0
 const LIMIT = 256
 
+
 func _physics_process(delta):
 	if direction == 0 || not visible: return
 	position.x += direction * speed
 	if position.x < start_position_x - LIMIT || position.x > start_position_x + LIMIT:
 		visible = false
-		position.x = -100000000
 		position.y = -100000000
 
 
 func _on_MainGunBullet_body_entered(body):
-	print(body.name)
+	if body.name == \"Hero\":
+		body.emit_signal(\"destroy\")
+
 "
 
 [sub_resource type="AtlasTexture" id=2]

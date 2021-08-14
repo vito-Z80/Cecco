@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Pref/Hero/Hero.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Zone_001.tscn" type="PackedScene" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Pref/Enemies/EnemyMissileArea_01.tscn" type="PackedScene" id=19]
 [ext_resource path="res://Pref/Enemies/EnemyAlienArea_01.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Pref/Solids/MineCarriage.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Pref/Mine.tscn" type="PackedScene" id=23]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 751, 7 )
@@ -626,7 +627,13 @@ position = Vector2( 6048, 16 )
 position = Vector2( 6360, 88 )
 
 [node name="MineCarriage" parent="Objects/solids" instance=ExtResource( 21 )]
-position = Vector2( 280, 104 )
+position = Vector2( 5744, 104 )
+
+[node name="MineCarriage2" parent="Objects/solids" instance=ExtResource( 21 )]
+position = Vector2( 5696, 104 )
+
+[node name="MineCarriage3" parent="Objects/solids" instance=ExtResource( 21 )]
+position = Vector2( 6000, 24 )
 
 [node name="guns" type="Node" parent="Objects"]
 
@@ -748,20 +755,46 @@ frame = 1
 [node name="GateFlash4" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 0, 64 )
 animation = "top"
-frame = 1
+frame = 4
 
 [node name="GateFlash6" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 40, 64 )
 animation = "top"
-frame = 1
+frame = 4
 
 [node name="GateFlash5" parent="Objects/flashes" instance=ExtResource( 12 )]
 position = Vector2( 80, 64 )
 animation = "top"
-frame = 1
+frame = 4
 
 [node name="TileMap" parent="." instance=ExtResource( 2 )]
 z_index = 5
+
+[node name="Mines" type="Node2D" parent="."]
+
+[node name="Mine" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 1872, 152 )
+z_index = 8
+
+[node name="Mine2" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 1912, 152 )
+z_index = 8
+
+[node name="Mine3" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 1952, 152 )
+z_index = 8
+
+[node name="Mine4" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 4184, 152 )
+z_index = 8
+
+[node name="Mine5" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 4248, 152 )
+z_index = 8
+
+[node name="Mine6" parent="Mines" instance=ExtResource( 23 )]
+position = Vector2( 4696, 152 )
+z_index = 8
 
 [editable path="Objects/teleports/2Teleports3"]
 [editable path="Objects/teleports/2Teleports2"]

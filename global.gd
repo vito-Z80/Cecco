@@ -7,15 +7,17 @@ extends Node2D
 #onready var canvas_item = get_canvas_item()
 
 var hero_position:Vector2
-#------------------Enemy pools--------------------------------
-var e_balls = Array()
-var e_missile_01 = Array()
-
+#------------------pools--------------------------------
 var pools = {
 	"enemy_balls": Array(),
 	"enemy_missiles_01": Array(),
 	"enemy_aliens": Array(),
 	"enemy_explosions": Array(),
+	
+	"enemy_shotgun": Array(),
+	"enemy_maingun": Array(),
+	
+	"hero_bullets": Array(),
 }
 
 
@@ -42,7 +44,7 @@ func clear_items():
 	item_zones = 0
 
 func get_rnd_color():
-	return zx_flash[rand_range(0,zx_flash.size() - 1)]
+	return zx_flash[rand_range(0,zx_flash.size())]
 	
 func get_rnd_color_6():
 	return zx_flash[rand_range(2,zx_flash.size())]
@@ -74,3 +76,12 @@ enum zx_color{
 	WHITE = 0xFFFFFFFF,
 	WHITE_DARK = 0xCCCCCCFF,
 }
+
+#-----------------------------------------------------------
+func get_enemy_direction(position):
+	return 1 if hero_position.x > position.x else -1
+
+func is_on_screen(position):
+	return abs(hero_position.x - position.x) < 144 
+
+#-----------------------------------------------------------

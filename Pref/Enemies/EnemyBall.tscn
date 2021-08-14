@@ -60,6 +60,12 @@ func _on_EnemyBall_01_launch(notifier_position, direction):
 	dir = direction
 	time = 0
 	visible = true
+
+
+func _on_EnemyBall_01_body_entered(body):
+	if body.name == \"Hero\":
+		emit_signal(\"destroy\")
+		body.emit_signal(\"destroy\")
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -87,7 +93,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=7]
-radius = 8.0
+radius = 6.0
 
 [node name="EnemyBall_01" type="Area2D"]
 position = Vector2( 0, -8 )
@@ -100,9 +106,12 @@ __meta__ = {
 frames = SubResource( 6 )
 frame = 2
 playing = true
+centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
 shape = SubResource( 7 )
 
+[connection signal="body_entered" from="." to="." method="_on_EnemyBall_01_body_entered"]
 [connection signal="destroy" from="." to="." method="_on_EnemyBall_01_destroy"]
 [connection signal="launch" from="." to="." method="_on_EnemyBall_01_launch"]

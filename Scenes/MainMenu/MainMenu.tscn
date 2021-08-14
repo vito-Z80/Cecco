@@ -68,8 +68,8 @@ func _ready():
 func add_label(text,position,color:Color = Color.white):
 	var label = ZxLabel.instance()
 	label.text = text
-	label.color = color
-	label.position = position
+	label.text_color = color
+	label.rect_position = position
 	label.visible = true
 	add_child(label)
 "

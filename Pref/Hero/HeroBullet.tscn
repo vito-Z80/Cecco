@@ -15,40 +15,38 @@ var launch_position_x = 0
 
 
 func _ready():
-	spark = BulletSpark.instance()
+	spark = BulletSpark.instance() as Particles2D
 	get_tree().current_scene.add_child(spark)
-
-func _physics_process(delta):
+func _process(delta):
 	if direction == 0 || not visible: return
 	position.x += direction * speed
-	if position.x < launch_position_x - 256 || position.x > launch_position_x + 256:
+	if position.x < launch_position_x - 112 || position.x > launch_position_x + 112:
 		visible = false
-		position.x = -100000000
 		position.y = -100000000
 
+func hide():
+		Sound.ph()
+		spark.emit_signal(\"launch\", position)
+		visible = false
+		position.y = -100000000
 
 func _on_BulletMove_body_entered(body):
-	Sound.ph()
-	visible = false
-	spark.run(position)
-	position.x = -100000000
-	position.y = -100000000
 	if \"enemy\".is_subsequence_ofi(body.name):
 		body.emit_signal(\"destroy\")
+	hide()
 
 
 func _on_BulletMove_area_entered(area):
+	if \"bullet\".is_subsequence_ofi(area.name):
+		if area.has_signal(\"destroy\") :
+			area.emit_signal(\"destroy\")
+			hide()
+			return
 	if \"enemy\".is_subsequence_ofi(area.name) && not \"area\".is_subsequence_ofi(area.name):
 		area.emit_signal(\"destroy\")
-		visible = false
-		position.x = -100000000
-		position.y = -100000000
-		Sound.ph()
-	return
-	if \"DoubleBarrelBullet\".is_subsequence_ofi(area.name):
-		print(area.name)
-		area.clear()
-		area.queue_free()
+		hide()
+		return
+		
 "
 
 [sub_resource type="RectangleShape2D" id=2]
@@ -56,15 +54,15 @@ extents = Vector2( 8, 2 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
-region = Rect2( 388, 377, 8, 3 )
+region = Rect2( 388, 378, 8, 1 )
 
-[node name="BulletMove" type="Area2D"]
+[node name="HeroBullet" type="Area2D"]
 input_pickable = false
 script = SubResource( 1 )
 BulletSpark = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 4, 1 )
+position = Vector2( 4, 0 )
 scale = Vector2( 0.5, 0.5 )
 shape = SubResource( 2 )
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=2]
 
-[ext_resource path="res://Pref/Hero/BulletMove.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Pref/Hero/HeroBullet.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Atlas/hero_regions.tres" type="Texture" id=2]
 [ext_resource path="res://Atlas/hero_regions.atlastex" type="Texture" id=3]
 
@@ -9,6 +9,7 @@ script/source = "extends KinematicBody2D
 
 export (PackedScene) var bullet
 
+signal destroy
 
 const WALK = \"walk\"
 const WALK_PERFECT = \"walk_perfect\"
@@ -164,20 +165,20 @@ func fire(delta):
 		var pos2 = position
 		if raiment == RAIMENT.NORMAL:
 			if state & STATE.SIT == STATE.SIT:
-				pos.y += 6
+				pos.y += 7
 			show_bullet(bullet, pos, bullet_direction)
 		else:
 			pos2.y += 5
 			if state & STATE.SIT == STATE.SIT:
-				pos.y += 5
-				pos2.y += 6
+				pos.y += 6
+				pos2.y += 7
 			show_bullet(bullet, pos, bullet_direction)
 			show_bullet(bullet, pos2, bullet_direction)
 				
 			
 		Sound.fire()
 #------------------------Bullets POOL---------------------------------
-var pool = Array()
+var pool = g.pools.hero_bullets as Array
 func show_bullet(bullet_node, bullet_position, direction):
 	if pool.empty():
 		return create_new_bullet(bullet_node, bullet_position, direction)
@@ -215,14 +216,15 @@ func create_new_bullet(bullet_node, bullet_position, direction):
 		b.position.x -= 8
 	b.launch_position_x = b.position.x
 		
-	get_parent().add_child(b)
+	get_tree().current_scene.add_child(b)
 	pool.append(b)
 
-func set_bullet_y():
-	
-	pass
 
 #--------------------------------------------------------------------
+
+
+func _on_Hero_destroy():
+	print(\"Hero DEAD !!!!\")
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -231,103 +233,103 @@ region = Rect2( 76, 212, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 3 )
-region = Rect2( 76, 276, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=5]
-atlas = ExtResource( 2 )
-region = Rect2( 276, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=6]
-atlas = ExtResource( 2 )
-region = Rect2( 252, 596, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=7]
-atlas = ExtResource( 2 )
-region = Rect2( 252, 532, 24, 32 )
-
-[sub_resource type="AtlasTexture" id=8]
-atlas = ExtResource( 2 )
 region = Rect2( 156, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=9]
+[sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
 region = Rect2( 180, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=10]
+[sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
 region = Rect2( 204, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=11]
+[sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
 region = Rect2( 228, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=12]
+[sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
 region = Rect2( 252, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=13]
+[sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
 region = Rect2( 276, 500, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=14]
+[sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
 region = Rect2( 156, 532, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=15]
+[sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 2 )
 region = Rect2( 180, 532, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=16]
+[sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 2 )
 region = Rect2( 204, 532, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=17]
+[sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
 region = Rect2( 228, 532, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=18]
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 2 )
+region = Rect2( 276, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 2 )
 region = Rect2( 156, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=19]
+[sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 2 )
 region = Rect2( 180, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=20]
+[sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 2 )
 region = Rect2( 204, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=21]
+[sub_resource type="AtlasTexture" id=17]
 atlas = ExtResource( 2 )
 region = Rect2( 228, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=22]
+[sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 2 )
 region = Rect2( 252, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=23]
+[sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 2 )
 region = Rect2( 276, 564, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 2 )
 region = Rect2( 156, 596, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=25]
+[sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
 region = Rect2( 180, 596, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=26]
+[sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 2 )
 region = Rect2( 204, 596, 24, 32 )
 
-[sub_resource type="AtlasTexture" id=27]
+[sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 2 )
 region = Rect2( 228, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 2 )
+region = Rect2( 276, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 2 )
+region = Rect2( 252, 596, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 2 )
+region = Rect2( 252, 532, 24, 32 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 3 )
+region = Rect2( 76, 276, 24, 32 )
 
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
@@ -336,40 +338,40 @@ animations = [ {
 "name": "jump",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 3 ) ],
-"loop": false,
-"name": "dead",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 4 ) ],
-"loop": true,
-"name": "jump_perfect",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 5 ) ],
-"loop": false,
-"name": "dead_perfect",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 6 ) ],
-"loop": false,
-"name": "sit_perfect",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 7 ) ],
-"loop": false,
-"name": "sit",
-"speed": 1.0
-}, {
-"frames": [ SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ) ],
+"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
 "loop": true,
 "name": "walk",
 "speed": 12.5
 }, {
-"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"frames": [ SubResource( 13 ) ],
+"loop": false,
+"name": "dead_perfect",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
 "loop": true,
 "name": "walk_perfect",
 "speed": 12.5
+}, {
+"frames": [ SubResource( 24 ) ],
+"loop": false,
+"name": "dead",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 25 ) ],
+"loop": false,
+"name": "sit_perfect",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 26 ) ],
+"loop": false,
+"name": "sit",
+"speed": 1.0
+}, {
+"frames": [ SubResource( 27 ) ],
+"loop": true,
+"name": "jump_perfect",
+"speed": 1.0
 } ]
 
 [sub_resource type="RectangleShape2D" id=29]
@@ -425,3 +427,5 @@ smoothing_enabled = true
 smoothing_speed = 8.0
 editor_draw_limits = true
 script = SubResource( 30 )
+
+[connection signal="destroy" from="." to="." method="_on_Hero_destroy"]

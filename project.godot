@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "BulletPool",
 "language": "GDScript",
 "path": "res://addons/BulletPool.gd"
+}, {
+"base": "Node2D",
+"class": "MainPool",
+"language": "GDScript",
+"path": "res://Pref/MainPool.gd"
 } ]
 _global_script_class_icons={
-"BulletPool": ""
+"BulletPool": "",
+"MainPool": ""
 }
 
 [application]
@@ -117,6 +123,7 @@ mbr={
 
 [physics]
 
+common/physics_jitter_fix=0.0
 2d/physics_engine="GodotPhysics"
 2d/thread_model=2
 

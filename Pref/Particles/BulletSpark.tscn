@@ -17,8 +17,9 @@ hue_variation_random = 0.8
 [sub_resource type="GDScript" id=2]
 script/source = "extends Particles2D
 
-func run(pos):
-	
+signal launch(pos)
+
+func _on_BulletSpark_launch(pos):
 	position = pos
 	position.x += 4
 	one_shot = true
@@ -36,3 +37,5 @@ fixed_fps = 60
 visibility_rect = Rect2( -8, -8, 16, 16 )
 process_material = SubResource( 1 )
 script = SubResource( 2 )
+
+[connection signal="launch" from="." to="." method="_on_BulletSpark_launch"]
