@@ -12,6 +12,7 @@ export (PackedScene) var mini_ball
 export var ball_numbers = 8
 onready var balls_area = $BallsArea
 onready var balls_area_shape = $BallsArea/CollisionShape2D
+#onready var balls_area_shape = CollisionShape2D.new()
 
 signal destroy
 signal change_radius(new_radius)
@@ -19,13 +20,18 @@ var is_radius_change = false
 
 
 func _ready():
+# либо выставляем на шейпе local to scene, либо шейп создается с кода как ниже !!!
+#	balls_area_shape.shape = CircleShape2D.new()
+#	balls_area_shape.position = Vector2(16,16)
+#	balls_area_shape.shape.radius = 8
+#	balls_area.add_child(balls_area_shape)
 	for i in ball_numbers:
 		var mb = mini_ball.instance()
 		mb.emit_signal(\"launch\", balls_area)
 		balls_area_shape.add_child(mb)
 
 func _physics_process(delta):
-	if is_radius_change && balls_area_shape.get_child_count() <= 1:
+	if is_radius_change && balls_area_shape.get_child_count() < 1:
 		print(\"full destroyyyyyyyyyyyyyy\")
 		queue_free()
 
@@ -40,9 +46,6 @@ func _on_BallStorage_destroy():
 	emit_signal(\"change_radius\", 96)
 	is_radius_change = true
 
-
-
-
 func _on_BallStorage_change_radius(new_radius):
 	balls_area_shape.shape.radius = new_radius
 "
@@ -55,6 +58,7 @@ region = Rect2( 148, 308, 32, 48 )
 extents = Vector2( 16, 24 )
 
 [sub_resource type="CircleShape2D" id=4]
+resource_local_to_scene = true
 radius = 8.0
 
 [node name="BallStorage" type="StaticBody2D"]

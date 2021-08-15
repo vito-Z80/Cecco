@@ -47,6 +47,11 @@ func _on_EnemyMiniBall_launch(main_area):
 
 func _on_EnemyMiniBall_destroy():
 	queue_free()
+
+
+func _on_EnemyMiniBall_body_entered(body):
+	if body.name == \"Hero\":
+		body.emit_signal(\"destroy\")
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -67,5 +72,6 @@ centered = false
 position = Vector2( 4, 4 )
 shape = SubResource( 3 )
 
+[connection signal="body_entered" from="." to="." method="_on_EnemyMiniBall_body_entered"]
 [connection signal="destroy" from="." to="." method="_on_EnemyMiniBall_destroy"]
 [connection signal="launch" from="." to="." method="_on_EnemyMiniBall_launch"]
