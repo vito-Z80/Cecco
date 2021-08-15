@@ -51,6 +51,7 @@ func _on_EnemyMiniBall_destroy():
 
 func _on_EnemyMiniBall_body_entered(body):
 	if body.name == \"Hero\":
+		queue_free()
 		body.emit_signal(\"destroy\")
 "
 

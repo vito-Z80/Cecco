@@ -10,20 +10,41 @@ script/source = "extends KinematicBody2D
 export (PackedScene) var bullet
 
 signal destroy
+signal maybe_destroy
 
 const WALK = \"walk\"
 const WALK_PERFECT = \"walk_perfect\"
 
+onready var camera = $Camera2D
 onready var rect = $CollisionShape2D
 onready var sprite = $AnimatedSprite
 
-var is_damage = false
+#var is_damage = false
 var speed = 60
 var velocity = Vector2()
-var jumping_state = 0
+#var jumping_state = 0
+var is_dead = false
 
+enum DEAD_STATE{
+	PICK_UP_HERO,
+	WAIT_JUMP_FINISH,
+	DROP_HERO,
+	CAMERA_MOVE
+#	PHASE_01,		# stop hero process, set velocity, set jump animation
+#	PHASE_02,		# wait is_on_floor()
+#	PHASE_03, 		# play statship animation
+#	PHASE_04, 		# wait starship animation for 2 seconds and hide hero
+#	PHASE_05, 		# wait finish starship animation
+#	PHASE_06,		# set hero position as respawn position
+#	PHASE_07,		# wait camera move to new position
+#	PHASE_08,		# play starship animation again
+#	PHASE_09,		# wait 2 seconds animation and visible hero
+#	PHASE_10,		# wait finish starship animation and start hero process
 
-var raiment = RAIMENT.NORMAL
+}
+var dead_state
+
+var raiment = RAIMENT.PERFECT
 var state = STATE.STAY
 enum STATE{
 	STAY = 0,
@@ -47,7 +68,12 @@ func _ready():
 
 
 func _physics_process(delta):
-	g.hero_position = $Camera2D.get_camera_position()
+	# dead process
+	if is_dead:
+		dead_process(delta)
+		return
+	# main process
+	g.hero_position = camera.get_camera_position()
 	if state & STATE.JUMP == STATE.JUMP && state & STATE.SIT != STATE.SIT:
 		sprite.play(\"jump\")
 		if is_on_floor():
@@ -221,10 +247,65 @@ func create_new_bullet(bullet_node, bullet_position, direction):
 
 
 #--------------------------------------------------------------------
+var pre_camera_center_position_x = 0
+func dead_process(delta):
+	match dead_state:
+		DEAD_STATE.WAIT_JUMP_FINISH:
+			fall(delta)
+			move_and_slide(velocity,Vector2.UP)
+			if is_on_floor():
+				StarShip.emit_signal(\"respawn_hero\")
+				dead_state = DEAD_STATE.PICK_UP_HERO
+		DEAD_STATE.PICK_UP_HERO:
+			# cemera set new positoin is playing finish
+			if not StarShip.animation.is_playing():
+				camera.smoothing_speed = 2
+				position = g.check_point_position
+				dead_state = DEAD_STATE.CAMERA_MOVE
+			# hide hero after 2 seconds animation
+			visible = StarShip.animation.current_animation_position < 2
+		DEAD_STATE.CAMERA_MOVE:
+			# start new animation if camera is stop
+			if pre_camera_center_position_x == int(camera.get_camera_screen_center().x):
+				g.hero_position = position
+				StarShip.emit_signal(\"respawn_hero\")
+				dead_state = DEAD_STATE.DROP_HERO
+			pre_camera_center_position_x = int(camera.get_camera_screen_center().x)
+		DEAD_STATE.DROP_HERO:
+			visible = StarShip.animation.current_animation_position > 2
+			if not StarShip.animation.is_playing():
+				camera.smoothing_speed = 8
+				is_dead = false
 
 
 func _on_Hero_destroy():
-	print(\"Hero DEAD !!!!\")
+	if is_dead: return
+	is_dead = true
+	dead_state = DEAD_STATE.WAIT_JUMP_FINISH
+	velocity.y -= 108
+	velocity.x = 0
+	sprite.play(\"jump\" if raiment == RAIMENT.NORMAL else \"jump_perfect\")
+	
+func dead_animation(delta):
+	if StarShip.animation.is_playing():
+		pick_up_hero()
+		return
+	fall(delta)
+	move_and_slide(velocity,Vector2.UP)
+	if is_on_floor():
+		StarShip.emit_signal(\"respawn_hero\")
+
+func pick_up_hero():
+	if StarShip.animation.current_animation_position >= 2:
+		visible = false
+		position = g.check_point_position
+		StarShip.emit_signal(\"respawn_hero\")
+		pass
+
+
+func _on_Hero_maybe_destroy():
+	if raiment == RAIMENT.NORMAL:
+		emit_signal(\"destroy\")
 "
 
 [sub_resource type="AtlasTexture" id=2]
@@ -233,103 +314,103 @@ region = Rect2( 76, 212, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 500, 24, 32 )
+region = Rect2( 276, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=4]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 500, 24, 32 )
+region = Rect2( 156, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 500, 24, 32 )
+region = Rect2( 180, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=6]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 500, 24, 32 )
+region = Rect2( 204, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=7]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 500, 24, 32 )
+region = Rect2( 228, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=8]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 500, 24, 32 )
+region = Rect2( 252, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=9]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 532, 24, 32 )
+region = Rect2( 276, 564, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=10]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 532, 24, 32 )
+region = Rect2( 156, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=11]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 532, 24, 32 )
+region = Rect2( 180, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=12]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 532, 24, 32 )
+region = Rect2( 204, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=13]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 596, 24, 32 )
+region = Rect2( 228, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=14]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 564, 24, 32 )
+region = Rect2( 276, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=15]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 564, 24, 32 )
+region = Rect2( 252, 596, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=16]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 564, 24, 32 )
+region = Rect2( 252, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=17]
-atlas = ExtResource( 2 )
-region = Rect2( 228, 564, 24, 32 )
+atlas = ExtResource( 3 )
+region = Rect2( 76, 276, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=18]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 564, 24, 32 )
+region = Rect2( 156, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=19]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 564, 24, 32 )
+region = Rect2( 180, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=20]
 atlas = ExtResource( 2 )
-region = Rect2( 156, 596, 24, 32 )
+region = Rect2( 204, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
-region = Rect2( 180, 596, 24, 32 )
+region = Rect2( 228, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=22]
 atlas = ExtResource( 2 )
-region = Rect2( 204, 596, 24, 32 )
+region = Rect2( 252, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=23]
 atlas = ExtResource( 2 )
-region = Rect2( 228, 596, 24, 32 )
+region = Rect2( 276, 500, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=24]
 atlas = ExtResource( 2 )
-region = Rect2( 276, 532, 24, 32 )
+region = Rect2( 156, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=25]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 596, 24, 32 )
+region = Rect2( 180, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=26]
 atlas = ExtResource( 2 )
-region = Rect2( 252, 532, 24, 32 )
+region = Rect2( 204, 532, 24, 32 )
 
 [sub_resource type="AtlasTexture" id=27]
-atlas = ExtResource( 3 )
-region = Rect2( 76, 276, 24, 32 )
+atlas = ExtResource( 2 )
+region = Rect2( 228, 532, 24, 32 )
 
 [sub_resource type="SpriteFrames" id=28]
 animations = [ {
@@ -338,40 +419,40 @@ animations = [ {
 "name": "jump",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ) ],
-"loop": true,
-"name": "walk",
-"speed": 12.5
-}, {
-"frames": [ SubResource( 13 ) ],
+"frames": [ SubResource( 3 ) ],
 "loop": false,
 "name": "dead_perfect",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ) ],
+"frames": [ SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ) ],
 "loop": true,
 "name": "walk_perfect",
 "speed": 12.5
 }, {
-"frames": [ SubResource( 24 ) ],
+"frames": [ SubResource( 14 ) ],
 "loop": false,
 "name": "dead",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 25 ) ],
+"frames": [ SubResource( 15 ) ],
 "loop": false,
 "name": "sit_perfect",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 26 ) ],
+"frames": [ SubResource( 16 ) ],
 "loop": false,
 "name": "sit",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 27 ) ],
+"frames": [ SubResource( 17 ) ],
 "loop": true,
 "name": "jump_perfect",
 "speed": 1.0
+}, {
+"frames": [ SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ) ],
+"loop": true,
+"name": "walk",
+"speed": 12.5
 } ]
 
 [sub_resource type="RectangleShape2D" id=29]
@@ -429,3 +510,4 @@ editor_draw_limits = true
 script = SubResource( 30 )
 
 [connection signal="destroy" from="." to="." method="_on_Hero_destroy"]
+[connection signal="maybe_destroy" from="." to="." method="_on_Hero_maybe_destroy"]

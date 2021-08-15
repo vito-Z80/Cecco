@@ -30,6 +30,7 @@ var item_zones = 0
 #-----------------------------------------------------------
 var jump:bool = false
 var is_dead:bool = false
+var check_point_position = Vector2(2000,112)
 #-----------------------------------------------------------
 
 func new_game_init():

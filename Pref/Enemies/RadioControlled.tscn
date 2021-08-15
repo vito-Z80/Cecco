@@ -54,7 +54,7 @@ func _on_RadioControlled_screen_exited():
 
 func _on_Missile_body_entered(body):
 	if body.name == \"Hero\":
-		print(\"dead\")
+		body.emit_signal(\"maybe_destroy\")
 		missile.visible = false
 		missile.position.y = -10000000
 		state = STATE.FINISH
@@ -69,41 +69,41 @@ func _on_Antenna_destroy():
 	queue_free()
 "
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=2]
 script/source = "extends StaticBody2D
 
 signal destroy
 "
 
-[sub_resource type="AtlasTexture" id=2]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 1 )
 region = Rect2( 252, 316, 32, 32 )
 
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 16, 16 )
-
-[sub_resource type="AtlasTexture" id=4]
-atlas = ExtResource( 2 )
-region = Rect2( 36, 356, 16, 16 )
 
 [sub_resource type="AtlasTexture" id=5]
 atlas = ExtResource( 2 )
+region = Rect2( 36, 356, 16, 16 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 2 )
 region = Rect2( 52, 356, 16, 16 )
 
-[sub_resource type="SpriteFrames" id=6]
+[sub_resource type="SpriteFrames" id=7]
 animations = [ {
-"frames": [ SubResource( 4 ) ],
+"frames": [ SubResource( 5 ) ],
 "loop": true,
 "name": "enemy_search",
 "speed": 1.0
 }, {
-"frames": [ SubResource( 5 ) ],
+"frames": [ SubResource( 6 ) ],
 "loop": true,
 "name": "enemy_attack",
 "speed": 1.0
 } ]
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 8, 4 )
 
 [node name="RadioControlled" type="VisibilityNotifier2D"]
@@ -115,18 +115,18 @@ __meta__ = {
 explosion = ExtResource( 3 )
 
 [node name="Antenna" type="StaticBody2D" parent="."]
-script = SubResource( 8 )
+script = SubResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="Sprite" type="Sprite" parent="Antenna"]
-texture = SubResource( 2 )
+texture = SubResource( 3 )
 centered = false
 
 [node name="RadioAntenna" type="CollisionShape2D" parent="Antenna"]
 position = Vector2( 16, 16 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Missile" type="Area2D" parent="."]
 visible = false
@@ -137,14 +137,14 @@ __meta__ = {
 }
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Missile"]
-frames = SubResource( 6 )
+frames = SubResource( 7 )
 animation = "enemy_search"
 playing = true
 centered = false
 
 [node name="RadioMissile" type="CollisionShape2D" parent="Missile"]
 position = Vector2( 8, 8 )
-shape = SubResource( 7 )
+shape = SubResource( 8 )
 
 [connection signal="screen_entered" from="." to="." method="_on_RadioControlled_screen_entered"]
 [connection signal="screen_exited" from="." to="." method="_on_RadioControlled_screen_exited"]

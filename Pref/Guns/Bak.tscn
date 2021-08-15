@@ -16,7 +16,7 @@ func _ready():
 
 func _on_Bak_body_entered(body):
 	if body.name == \"Hero\":
-		body.is_damage = true
+		body.emit_signal(\"maybe_destroy\")
 
 
 var wait_time = 0.5

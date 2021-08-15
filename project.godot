@@ -42,6 +42,7 @@ Music="*res://Scenes/Audio/Music.tscn"
 Debug="*res://debug.gd"
 Sound="*res://Scenes/Audio/Sound.tscn"
 ExplosionPool="*res://Pref/Enemies/ExplosionPool.tscn"
+StarShip="*res://Pref/Solids/StarShip.tscn"
 
 [debug]
 
