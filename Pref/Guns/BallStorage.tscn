@@ -8,19 +8,20 @@
 script/source = "extends StaticBody2D
 
 export (PackedScene) var explosion
-export (PackedScene) var balls
-var b:Area2D
+onready var area = $EnemyMiniBallsArea
+
 signal destroy
 var is_radius_change = false
 
-func _ready():
-	b = balls.instance()
-	b.position.x = 16
-	b.position.y = 16
-	add_child(b)
+
+#func _ready():
+#	b = balls.instance()
+#	b.position.x = 16
+#	b.position.y = 16
+#	add_child(b)
 
 func _physics_process(delta):
-	if is_radius_change && b.get_child_count() <= 1:
+	if is_radius_change && area.get_child_count() <= 1:
 		print(\"full destroyyyyyyyyyyyyyy\")
 		queue_free()
 
@@ -32,7 +33,7 @@ func _on_BallStorage_destroy():
 	get_parent().add_child(e)
 	$Sprite.queue_free()
 	$CollisionShape2D.queue_free()
-	b.emit_signal(\"change_radius\", 96)
+	area.emit_signal(\"change_radius\", 96)
 	is_radius_change = true
 "
 
@@ -46,7 +47,6 @@ extents = Vector2( 16, 24 )
 [node name="BallStorage" type="StaticBody2D"]
 script = SubResource( 1 )
 explosion = ExtResource( 2 )
-balls = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = SubResource( 2 )
@@ -55,5 +55,8 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 16, 24 )
 shape = SubResource( 3 )
+
+[node name="EnemyMiniBallsArea" parent="." instance=ExtResource( 3 )]
+position = Vector2( 16, 16 )
 
 [connection signal="destroy" from="." to="." method="_on_BallStorage_destroy"]
