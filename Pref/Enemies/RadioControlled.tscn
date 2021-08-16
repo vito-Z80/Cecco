@@ -54,7 +54,7 @@ func _on_RadioControlled_screen_exited():
 
 func _on_Missile_body_entered(body):
 	if body.name == \"Hero\":
-		body.emit_signal(\"maybe_destroy\")
+		body.emit_signal(\"destroy\")
 		missile.visible = false
 		missile.position.y = -10000000
 		state = STATE.FINISH

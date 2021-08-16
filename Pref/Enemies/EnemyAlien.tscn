@@ -15,50 +15,47 @@ var direction = false
 var center_x = 0
 
 enum STATE{
-	PREPARE, MOVE, WAIT, FALL, WAVE
+	PREPARE, MOVE, WAIT, MOVE_01, CIRCLE
 }
 
 var state = STATE.WAIT
 
 func _process(delta):
+	var hero_position = g.hero_position
 	match state:
 		STATE.WAIT: return
 		
-		STATE.FALL:
-			time += delta
-			position.y += 4
-			if direction:
-				position.x = g.hero_position.x - 120
-			else:
-				position.x = g.hero_position.x + 128
-			if position.y >= start_y:
-				position.y = start_y
-				state = STATE.WAVE
-				# set center_x as start X for enemy distantion calculate
+		STATE.MOVE_01:
+			time += 1
+			position.x -= -1 if direction else 1
+			if time == 32:
 				center_x = position.x
-				time = 0
+				time = 1.5
+				state = STATE.CIRCLE
 			
-		STATE.WAVE:
-			time += delta * 8
-			position.x += 1 if direction else -1
-			position.y = (sin(time)) * 16 + start_y
+		STATE.CIRCLE:
+			time += delta * 4
+#			var x = cos(time) * 32 + center_x
+			position.x = center_x + -cos(time) * 32 if direction else cos(time) * 32 + center_x
+			position.y = sin(time) * 32 + start_y - 32
 			if time >= 8:
 				state = STATE.MOVE
-				time = 0
 				
 		STATE.MOVE:
+			center_x = hero_position.x
 			position.x += 2 if direction else -2
-			if position.x < center_x - 256 || position.x > center_x + 256:
+			if position.x < hero_position.x - 256 || position.x > hero_position.x + 256:
 				hide()
 				
 		STATE.PREPARE:
-			position.y = -16
-			start_y = g.hero_position.y - (randi() & 24)
-			state = STATE.FALL
-			direction = g.hero_position.x > center_x
+			position.y = hero_position.y - (randi() & 24)
+			start_y = position.y
+			direction = hero_position.x > center_x
+			position.x = hero_position.x - 128 if direction else hero_position.x + 144
 			$AnimatedSprite.flip_h = direction
 			$AnimatedSprite.modulate = g.get_rnd_color_6()
 			visible = true
+			state = STATE.MOVE_01
 
 func hide():
 	visible = false
@@ -116,7 +113,7 @@ script = SubResource( 1 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 6 )
-frame = 1
+frame = 2
 playing = true
 centered = false
 

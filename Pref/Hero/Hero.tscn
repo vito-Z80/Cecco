@@ -27,20 +27,9 @@ var is_dead = false
 
 enum DEAD_STATE{
 	PICK_UP_HERO,
-	WAIT_JUMP_FINISH,
+	WAIT_DEAD_FINISH,
 	DROP_HERO,
 	CAMERA_MOVE
-#	PHASE_01,		# stop hero process, set velocity, set jump animation
-#	PHASE_02,		# wait is_on_floor()
-#	PHASE_03, 		# play statship animation
-#	PHASE_04, 		# wait starship animation for 2 seconds and hide hero
-#	PHASE_05, 		# wait finish starship animation
-#	PHASE_06,		# set hero position as respawn position
-#	PHASE_07,		# wait camera move to new position
-#	PHASE_08,		# play starship animation again
-#	PHASE_09,		# wait 2 seconds animation and visible hero
-#	PHASE_10,		# wait finish starship animation and start hero process
-
 }
 var dead_state
 
@@ -90,10 +79,7 @@ func _physics_process(delta):
 	velocity.y = int(velocity.y)
 #-------------------------------ANIMATION------------------------------
 func animation():
-	
-	if state == STATE.STAY || state == STATE.PERFECT:
-		sprite.stop()
-		
+
 	# в какую сторону двигается
 	if state & STATE.WALK_RIGHT == STATE.WALK_RIGHT:
 		sprite.flip_h = false
@@ -120,7 +106,9 @@ func animation():
 			sprite.play(\"walk_perfect\")
 		if state & STATE.JUMP == STATE.JUMP:
 			sprite.play(\"jump_perfect\")
-
+	
+	if state & (STATE.WALK_LEFT | STATE.WALK_RIGHT) == 0:
+		sprite.stop()
 
 #---------------------CONTROL------------------------------------
 func control():
@@ -135,6 +123,11 @@ func control():
 	
 	if state & (STATE.WALK_LEFT | STATE.WALK_RIGHT) == STATE.WALK_LEFT | STATE.WALK_RIGHT:
 		state ^= (STATE.WALK_LEFT | STATE.WALK_RIGHT)
+		
+	var fire = state & (STATE.FIRE | STATE.LONG_FIRE)
+	if state & STATE.JUMP == STATE.JUMP:
+		g.jump = true
+		state = STATE.JUMP | fire
 
 #------------------------------ACTION--------------------------------
 func action(delta):
@@ -200,9 +193,8 @@ func fire(delta):
 				pos2.y += 7
 			show_bullet(bullet, pos, bullet_direction)
 			show_bullet(bullet, pos2, bullet_direction)
-				
-			
 		Sound.fire()
+
 #------------------------Bullets POOL---------------------------------
 var pool = g.pools.hero_bullets as Array
 func show_bullet(bullet_node, bullet_position, direction):
@@ -250,7 +242,7 @@ func create_new_bullet(bullet_node, bullet_position, direction):
 var pre_camera_center_position_x = 0
 func dead_process(delta):
 	match dead_state:
-		DEAD_STATE.WAIT_JUMP_FINISH:
+		DEAD_STATE.WAIT_DEAD_FINISH:
 			fall(delta)
 			move_and_slide(velocity,Vector2.UP)
 			if is_on_floor():
@@ -259,6 +251,7 @@ func dead_process(delta):
 		DEAD_STATE.PICK_UP_HERO:
 			# cemera set new positoin is playing finish
 			if not StarShip.animation.is_playing():
+				camera.smoothing_enabled = true
 				camera.smoothing_speed = 2
 				position = g.check_point_position
 				dead_state = DEAD_STATE.CAMERA_MOVE
@@ -273,18 +266,21 @@ func dead_process(delta):
 			pre_camera_center_position_x = int(camera.get_camera_screen_center().x)
 		DEAD_STATE.DROP_HERO:
 			visible = StarShip.animation.current_animation_position > 2
+			if visible:
+				sprite.play(\"walk\" if raiment == RAIMENT.NORMAL else \"walk_perfect\")
+				sprite.stop()
 			if not StarShip.animation.is_playing():
-				camera.smoothing_speed = 8
+				camera.smoothing_enabled = false
 				is_dead = false
 
 
 func _on_Hero_destroy():
 	if is_dead: return
 	is_dead = true
-	dead_state = DEAD_STATE.WAIT_JUMP_FINISH
+	dead_state = DEAD_STATE.WAIT_DEAD_FINISH
 	velocity.y -= 108
 	velocity.x = 0
-	sprite.play(\"jump\" if raiment == RAIMENT.NORMAL else \"jump_perfect\")
+	sprite.play(\"dead\" if raiment == RAIMENT.NORMAL else \"dead_perfect\")
 	
 func dead_animation(delta):
 	if StarShip.animation.is_playing():
@@ -504,8 +500,7 @@ limit_left = -12
 limit_top = 0
 limit_right = 6384
 limit_bottom = 0
-smoothing_enabled = true
-smoothing_speed = 8.0
+smoothing_speed = 2.0
 editor_draw_limits = true
 script = SubResource( 30 )
 
