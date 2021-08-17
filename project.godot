@@ -29,7 +29,7 @@ _global_script_class_icons={
 config/name="Cecco"
 config/description="Exolon. Game by Raffaele Cecco. The game was written in the process of learning the engine.
 Not comercial."
-run/main_scene="res://Scenes/Launch.tscn"
+run/main_scene="res://SplashScreen/Cecco.tscn"
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
@@ -52,6 +52,7 @@ settings/fps/force_fps=60
 
 window/size/width=256
 window/size/height=192
+window/size/fullscreen=true
 window/size/test_width=768
 window/size/test_height=512
 window/ios/hide_home_indicator=false

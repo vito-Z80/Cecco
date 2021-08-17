@@ -104,28 +104,28 @@ shape = SubResource( 2 )
 
 [node name="decor" type="AnimatedSprite" parent="port_1"]
 frames = SubResource( 11 )
-frame = 5
+frame = 7
 playing = true
 centered = false
 
 [node name="decor2" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 24, 0 )
 frames = SubResource( 11 )
-frame = 4
+frame = 6
 playing = true
 centered = false
 
 [node name="decor3" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 24, 16 )
 frames = SubResource( 11 )
-frame = 4
+frame = 6
 playing = true
 centered = false
 
 [node name="decor4" type="AnimatedSprite" parent="port_1"]
 position = Vector2( 0, 16 )
 frames = SubResource( 11 )
-frame = 4
+frame = 6
 playing = true
 centered = false
 
@@ -141,28 +141,25 @@ shape = SubResource( 2 )
 
 [node name="decor" type="AnimatedSprite" parent="port_2"]
 frames = SubResource( 11 )
-frame = 7
+frame = 1
 playing = true
 centered = false
 
 [node name="decor2" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 24, 0 )
 frames = SubResource( 11 )
-frame = 6
 playing = true
 centered = false
 
 [node name="decor3" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 24, 16 )
 frames = SubResource( 11 )
-frame = 6
 playing = true
 centered = false
 
 [node name="decor4" type="AnimatedSprite" parent="port_2"]
 position = Vector2( 0, 16 )
 frames = SubResource( 11 )
-frame = 6
 playing = true
 centered = false
 
